@@ -1,0 +1,4 @@
+aiohttp
+rsa
+requests
+configobj
