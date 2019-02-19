@@ -40,6 +40,7 @@ def sign(payload):
     payload = dict(payload,**sign)
     return payload
 
+# ksort方法来自Php2Python,在此感谢Php2Python!
 def ksort(d):
      return [(k,d[k]) for k in sorted(d.keys())]
 
@@ -55,6 +56,7 @@ def arrange_cookie(array):
           cookie = cookie + cookie_array[i]["name"] + "=" + cookie_array[i]["value"] + ";"
      return cookie_array[0]["value"],cookie
 
+# 获取当天晚上23点59分59秒的时间戳
 def std235959():
      now = datetime.datetime.now()
      zeroToday = now - datetime.timedelta(hours=now.hour, minutes=now.minute, seconds=now.second,microseconds=now.microsecond)

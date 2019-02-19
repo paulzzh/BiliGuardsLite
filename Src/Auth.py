@@ -1,3 +1,9 @@
+# BiliBiliHelper Python Version
+# Copy right (c) 2019 TheWanderingCoel
+# 该代码实现了登陆验证功能
+# 代码根据metowolf大佬的PHP版本进行改写
+# PHP代码地址:https://github.com/metowolf/BilibiliHelper/blob/0.9x/src/plugins/Auth.php
+
 import json
 import time
 import base64

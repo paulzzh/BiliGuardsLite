@@ -16,7 +16,7 @@ class Capsule():
         self.lock = int(time.time())
 
     def work(self):
-        if config["Function"]["CAPUSLE"] == "False":
+        if config["Function"]["CAPSULE"] == "False":
             return
         if self.lock > int(time.time()):
             return

@@ -5,6 +5,7 @@
 import time
 import json
 from Log import Log
+from Base import std235959
 from Curl import Curl
 from config import config
 
@@ -17,6 +18,10 @@ class Coin2Silver():
             return
         if self.lock > int(time.time()):
             return
+        
+        self.exchange(config["Coin2Silver"]["COIN"])
+
+        self.lock = std235959() + 600
     
     def exchange(self,num):
         payload = {
@@ -30,4 +35,3 @@ class Coin2Silver():
             Log.warning(data["message"])
 
         Log.info(data["message"]+", %s 枚硬币兑换了 %s 个银瓜子"%(num,data["data"]["silver"]))
-Coin2Silver().exchange(1)
