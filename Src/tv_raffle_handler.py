@@ -24,7 +24,7 @@ class TvRaffleHandler:
         payload = {}
         url = "https://api.live.bilibili.com/gift/v3/smalltv/check?roomid={%s}"%real_roomid
         data = await AsycnioCurl().get(url,payload)
-        data = json.loads(response)
+        data = json.loads(data)
         checklen = data["data"]["list"]
         next_step_settings = []
         for j in checklen:
