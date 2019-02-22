@@ -40,6 +40,15 @@ def sign(payload):
     payload = dict(payload,**sign)
     return payload
 
+def msign(strr):
+
+     appsecret = "c2ed53a74eeefe3cf99fbd01d8c9c375"
+     strr = f"{strr}{appsecret}"
+     sign = hashlib.md5()
+     sign.update(strr.update("utf-8"))
+     sign = sign.hexdigest
+     return sign
+
 # ksort方法来自Php2Python,在此感谢Php2Python!
 def ksort(d):
      return [(k,d[k]) for k in sorted(d.keys())]
@@ -62,3 +71,21 @@ def std235959():
      zeroToday = now - datetime.timedelta(hours=now.hour, minutes=now.minute, seconds=now.second,microseconds=now.microsecond)
      lastToday = zeroToday + datetime.timedelta(hours=23, minutes=59, seconds=59)
      return int(time.mktime(lastToday.timetuple()))
+
+def get_default():
+     # ios 6680
+     appkey = "27eb53fc9058f8c3"
+
+     default = {
+        "access_key":config["Token"]["ACCESS_TOKEN"],
+        "actionKey":"appkey",
+        "appkey":appkey,
+        "build":"8290",
+        "device":"phone",
+        "mobi_app":"iphone",
+        "platform":"ios",
+        "ts":int(time.time()),
+        "type":"json"
+    }
+
+     return default
