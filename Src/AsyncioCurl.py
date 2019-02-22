@@ -11,12 +11,8 @@ class AsyncioCurl:
 
     async def get(self,url,param):
         Log.debug("GET: "+url)
-        payload = {
-            "cookie":config["Token"]["COOKIE"]
-        }
-        payload = dict(param,**payload)
-        payload = sign(payload)
-        async with self.session.get(url,params=payload) as r:
+        async with self.session.get(url,params=param) as r:
+            Log.debug("STATUS: "+str(r.status))
             await self.session.close()
             return await r.json()
 
