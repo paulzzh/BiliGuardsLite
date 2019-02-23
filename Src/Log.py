@@ -5,6 +5,7 @@
 # https://www.cnblogs.com/nancyzhu/p/8551506.html
 # https://www.jianshu.com/p/dcf6bcc1a989
 
+import time
 import ctypes
 import logging
 from config import config
@@ -54,6 +55,8 @@ class Logger(object):
     def debug(self,message,color=FOREGROUND_BLUE):
         set_color(color)
         self.logger.debug(message)
+        # 不sleep会有info提示变成白色,不知道什么情况
+        time.sleep(0.1)
         set_color(FOREGROUND_WHITE)
         
     def info(self,message,color=FOREGROUND_GREEN):
