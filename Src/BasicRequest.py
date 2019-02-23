@@ -16,8 +16,8 @@ class BasicRequest:
     @staticmethod
     async def tv_req_check(real_roomid):
         payload = {}
-        url = "https://api.live.bilibili.com/gift/v3/smalltv/check?roomid={%s}"%real_roomid
-        response = await AsyncioCurl().get(url,payload)
+        url = "https://api.live.bilibili.com/gift/v3/smalltv/check?roomid=%s"%real_roomid
+        response = await AsyncioCurl().request_json
         return response
     
     @staticmethod
@@ -35,9 +35,8 @@ class BasicRequest:
     
     @staticmethod
     async def tv_req_notice(TV_roomid, TV_raffleid):
-        payload = {}
         url = "https://api.live.bilibili.com/gift/v3/smalltv/notice?type=small_tv&raffleId={%s}"%TV_raffleid
-        response = await AsyncioCurl().get(url,payload)
+        response = await AsyncioCurl().request_json("GET",url)
         return response
     
 # 大航海请求
@@ -80,26 +79,18 @@ class BasicRequest:
 # Live.py 请求
     @staticmethod
     async def init_room(roomid):
-        Log.debug("Exec: init_room")
-        payload = {}
         url = "https://api.live.bilibili.com/room/v1/Room/room_init?id=%s"%roomid
-        response = await AsyncioCurl().get(url,payload)
+        response = await AsyncioCurl().request_json("GET",url)
         return response
 
     @staticmethod
     async def get_room_info(roomid):
-        Log.debug("Exec: get_room_info")
-        payload = {}
         url = "https://api.live.bilibili.com/room/v1/Room/get_info?room_id=%s"%roomid
-        response = await AsyncioCurl().get(url,payload)
+        response = await AsyncioCurl().request_json("GET",url)
         return response
 
     @staticmethod
-    async def req_get_room_by_area(areaid):
-        print("hi")
-        payload = {}
+    async def get_room_by_area(areaid):
         url = "https://api.live.bilibili.com/room/v1/area/getRoomList?platform=web&parent_area_id=%s&cate_id=0&area_id=0&sort_type=online&page=1&page_size=15"%areaid
-        print("hi again!")
-        response = await AsyncioCurl().get(url,payload)
-        print("hi again again!")
+        response = await AsyncioCurl().request_json("GET",url)
         return response

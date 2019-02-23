@@ -1,9 +1,12 @@
 import asyncio
 from AsyncioCurl import AsyncioCurl
-from BasicRequest import BasicRequest
+from Live import Live
+
 
 task = [
-    BasicRequest.req_get_room_by_area(1)
+    Live.get_room_by_area(1),
+    Live.get_room_by_area(2),
+    Live.get_room_by_area(3),
 ]
 
 loop = asyncio.get_event_loop()

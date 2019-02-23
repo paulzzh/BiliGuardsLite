@@ -4,6 +4,7 @@ from Log import Log
 from Base import msign,get_default
 from Live import Live
 from AsyncioCurl import AsyncioCurl
+from BasicRequest import BasicRequest
 
 class StormRaffleHandler:
     @staticmethod
@@ -20,7 +21,7 @@ class StormRaffleHandler:
         if raffle_id is not None:
             data = {data: {"id": raffle_id}}
         else:
-            data = await self.req_check(room_id)
+            data = await BasicRequest.storm_req_check(room_id)
         next_step_settings = []
         data = data["data"]
         if data:
@@ -39,7 +40,7 @@ class StormRaffleHandler:
     @staticmethod
     async def join(self,room_id,raffle_id):
         await Live.enter_room(room_id)
-        data = await self.req_join(raffle_id)
+        data = await BasicRequest.storm_req_join(raffle_id)
         Statistics.add2joined_raffles("节奏风暴(合计)")
         if not data["code"]:
             data = data["data"]

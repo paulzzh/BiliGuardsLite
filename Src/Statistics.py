@@ -31,7 +31,7 @@ class Statistics:
         for k, v in results_of_id.items():
             print(f'{v:^5} X {k}')
     
-    def add2push_raffles(self,raffle_name,broadcast_type,num):
+    def add2pushed_raffles(self,raffle_name,broadcast_type,num):
         origin_num = self.pushed_raffles.get(raffle_name,0)
         # broadcast_type 广播类型 0 全区广播 1 分区广播 2 本房间
         if broadcast_type == 0:
@@ -58,7 +58,7 @@ class Statistics:
 
 var = Statistics()
 
-def add2push_raffles(raffle_name,broadcast_type=0,num=1):
+def add2pushed_raffles(raffle_name,broadcast_type=0,num=1):
     var.add2push_raffles(raffle_name,broadcast_type,int(num))
 
 def add2joined_raffles(raffle_name,num=1):

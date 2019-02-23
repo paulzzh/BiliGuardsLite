@@ -3,6 +3,7 @@ import Statistics
 from Log import Log
 from Live import Live
 from AsyncioCurl import AsyncioCurl
+from BasicRequest import BasicRequest
 
 class TvRaffleHandler:
     @staticmethod
@@ -22,7 +23,7 @@ class TvRaffleHandler:
     async def check(self,real_roomid):
         if not await Live.is_normal_room(real_roomid):
             return
-        data = await self.req_check(real_roomid)
+        data = await BasicRequest.tv_req_check(real_roomid)
         checklen = data["data"]["list"]
         next_step_settings = []
         for j in checklen:
@@ -41,7 +42,7 @@ class TvRaffleHandler:
     @staticmethod
     async def join(self,real_roomid,raffleid,raffle_type):
         await Live.enter_room(real_roomid)
-        data2 = await self.req_join(real_roomid,raffleid)
+        data2 = await BasicRequest.tv_req_join(real_roomid,raffleid)
         Log.info("参与了房间 %s 的小电视抽奖"%(real_roomid))
         Log.info("小电视抽奖状态: %s")
 
@@ -57,7 +58,7 @@ class TvRaffleHandler:
 
     @staticmethod
     async def notice(self,raffleid,real_roomid):
-        data = await self.req_notice(real_roomid,raffleid)
+        data = await BasicRequest.tv_req_notice(real_roomid,raffleid)
         if not data["code"]:
             if data["data"]["gift_id"] == "-1":
                 return

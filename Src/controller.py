@@ -1,4 +1,5 @@
 import asyncio
+from user import User
 from random import uniform
 
 class Controller:
@@ -6,7 +7,8 @@ class Controller:
         self.loop = loop
     
     async def notify_all(self,func,*args):
-        return await func(*args)
+        result = await User.accept(func,*args)
+        return result
 
     def __set_delay(self, delay_range):
         if delay_range is None:
