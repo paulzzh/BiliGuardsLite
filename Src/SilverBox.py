@@ -5,7 +5,11 @@
 import json
 import time
 import random
-from Log import Log
+import platform
+if platform.system() == "Windows":
+    from Windows_Log import Log
+else:
+    from Unix_Log import Log
 from Curl import Curl
 from config import config
 from Base import std235959

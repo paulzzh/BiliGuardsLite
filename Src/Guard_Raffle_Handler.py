@@ -1,23 +1,22 @@
 import re
+import random
 import asyncio
 import Statistics
-from Log import Log
+import platform
+if platform.system() == "Windows":
+    from Windows_Log import Log
+else:
+    from Unix_Log import Log
 from Live import Live
 from AsyncioCurl import AsyncioCurl
 from BasicRequest import BasicRequest
 from config import config
+from raffle_handler import RaffleHandler
 
 class GuardRaffleHandler:
-    @staticmethod
-    def target(step):
-        if step == 0:
-            GuardRaffleHandler.check
-        if step == 1:
-            GuardRaffleHandler.join
-        return None
     
     @staticmethod
-    async def check(self,real_roomid,raffle_id=None):
+    async def check(real_roomid,raffle_id=None):
         if not await Live.is_normal_room(real_roomid):
             return
         if raffle_id is not None:
@@ -31,19 +30,29 @@ class GuardRaffleHandler:
             else:
                 Log.warning("%s 没有guard或guard已领取"%real_roomid)
                 return
-            next_step_settings = []
+            
+            list_available_raffleid = []
+
             for j in data["data"]:
                 raffle_id = j["id"]
-                max_wait = min(j["time"] -15,240)
                 if not Statistics.is_raffleid_duplicate(raffle_id):
-                    Log.info("本次获取到的抽奖id为 %s"%raffle_id)
-                    next_step_setting = (1,(0,max_wait),-2,real_roomid,raffle_id)
-                    next_step_settings.append(next_step_setting)
+                    list_available_raffleid.append(raffle_id)
                     Statistics.add2raffle_ids(raffle_id)
-            return next_step_settings
+            
+            tasklist = []
+            num_available = len(list_available_raffleid)
+            for raffle_id in list_available_raffleid:
+                task = asyncio.ensure_future(GuardRaffleHandler.join(num_available,real_roomid,raffle_id))
+                tasklist.append(task)
+            if tasklist:
+                raffle_results = await asyncio.gather(*tasklist)
+                if False in raffle_results:
+                    Log.error("繁忙提示,稍后重新尝试")
+                    RaffleHandler.push2queue((real_roomid,), GuardRaffleHandler.check)
 
     @staticmethod
-    async def join(self,real_roomid,raffle_id):
+    async def join(num,real_roomid,raffle_id):
+        await asyncio.sleep(random.uniform(0.5, min(30, num * 1.3)))
         await Live.is_normal_room(real_roomid)
         data = await BasicRequest.guard_req_join(real_roomid,raffle_id)
         Log.info("参与了房间 %s 的大航海抽奖"%(real_roomid))

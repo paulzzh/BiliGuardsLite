@@ -8,10 +8,14 @@ import json
 import time
 import base64
 import requests
-from Log import Log
+import platform
+if platform.system() == "Windows":
+    from Windows_Log import Log
+else:
+    from Unix_Log import Log
 from Curl import Curl
 from config import config
-from Base import openssl_public_encrypt,arrange_cookie
+from Base import openssl_public_encrypt,arrange_cookie,set_cookie
 
 class Auth():
 
@@ -130,6 +134,6 @@ class Auth():
 
         csrf,cookie = arrange_cookie(data)
         config["Token"]["CSRF"] = csrf
-        config["Token"]["COOKIE"] = cookie
+        set_cookie(cookie)
 
         config.write()

@@ -6,7 +6,11 @@
 
 import time
 import json
-from Log import Log
+import platform
+if platform.system() == "Windows":
+    from Windows_Log import Log
+else:
+    from Unix_Log import Log
 from Curl import Curl
 from config import config
 

@@ -72,9 +72,6 @@ def std235959():
      lastToday = zeroToday + datetime.timedelta(hours=23, minutes=59, seconds=59)
      return int(time.mktime(lastToday.timetuple()))
 
-def current_time():
-     return int(time.time())
-     
 def get_default():
      # ios 6680
      appkey = "27eb53fc9058f8c3"
@@ -92,3 +89,7 @@ def get_default():
     }
 
      return default
+
+def set_cookie(cookie):
+     config["Token"]["COOKIE"] = cookie
+     config["pcheaders"]["cookie"] = cookie

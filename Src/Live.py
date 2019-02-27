@@ -1,9 +1,11 @@
 import json
 import random
-import controller
 from BasicRequest import BasicRequest
-from Log import Log
-from user import User
+import platform
+if platform.system() == "Windows":
+    from Windows_Log import Log
+else:
+    from Unix_Log import Log
 from config import config
 from AsyncioCurl import AsyncioCurl
 
@@ -18,7 +20,7 @@ class Live:
             "csrf_token": config["Token"]["CSRF"]
         }
         url = "https://api.live.bilibili.com/room/v1/Room/room_entry_action"
-        response = await AsyncioCurl().nspost(url,data)
+        response = await AsyncioCurl().request_json("POST",url,data=data,headers=config["pcheaders"])
         return response
 
     async def is_normal_room(roomid):

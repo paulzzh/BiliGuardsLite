@@ -6,7 +6,11 @@
 
 import json
 import time
-from Log import Log
+import platform
+if platform.system() == "Windows":
+    from Windows_Log import Log
+else:
+    from Unix_Log import Log
 from Curl import Curl
 from config import config
 
@@ -19,6 +23,7 @@ class GiftSend():
         self.roomid = 0
 
     def work(self):
+        print(self.lock)
         if config["Function"]["GIFTSEND"] == "False":
             return
         if self.lock > int(time.time()):
@@ -68,6 +73,7 @@ class GiftSend():
             Log.warning("获取主播房间号失败!"+data["message"])
             Log.warning("清空礼物功能禁用!")
             self.lock = int(time.time()) + 100000000
+            print("set lock:",self.lock)
             return
 
         Log.info("直播间信息生成完毕!")

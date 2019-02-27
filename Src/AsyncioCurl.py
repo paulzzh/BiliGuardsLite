@@ -1,6 +1,10 @@
 import asyncio
 import aiohttp
-from Log import Log
+import platform
+if platform.system() == "Windows":
+    from Windows_Log import Log
+else:
+    from Unix_Log import Log
 from Base import sign
 from config import config
 
