@@ -1,7 +1,6 @@
 import json
 import random
 import asyncio
-import Statistics
 import time
 import platform
 if platform.system() == "Windows":
@@ -10,6 +9,7 @@ else:
     from Unix_Log import Log
 from Live import Live
 from Timer import Timer
+from Statistics import Statistics
 from AsyncioCurl import AsyncioCurl
 from BasicRequest import BasicRequest
 
@@ -21,7 +21,7 @@ class TvRaffleHandler:
             return
         data = await BasicRequest.tv_req_check(real_roomid)
         checklen = data["data"]["list"]
-        list_available_rafflid = []
+        list_available_raffleid = []
         for j in checklen:
             raffle_id = j['raffleId']
             raffle_type = j['type']
@@ -29,10 +29,11 @@ class TvRaffleHandler:
 
             if not Statistics.is_raffleid_duplicate(raffle_id):
                 Log.info("本次获取到的抽奖id为: %s"%raffle_id)
-                list_available_rafflid.append((raffle_id,raffle_type,time_wanted))
+                list_available_raffleid.append((raffle_id,raffle_type,time_wanted))
+                Statistics.add2raffle_ids(raffle_id)
         # 暂时没啥用    
-        #num_aviable = len(list_available_rafflid)
-        for raffle_id,raffle_type,time_wanted in list_available_rafflid:
+        #num_aviable = len(list_available_raffleid)
+        for raffle_id,raffle_type,time_wanted in list_available_raffleid:
             Timer.add2list_jobs(TvRaffleHandler.join,time_wanted,(real_roomid,raffle_id,raffle_type))
 
     @staticmethod
@@ -45,12 +46,16 @@ class TvRaffleHandler:
         code = data2["code"]
         tasklist = []
         if not code:
-            time_wanted = int(time.time()) + random.randint(170,190)
-            Timer.add2list_jobs(TvRaffleHandler.notice,time_wanted,(raffle_id,real_roomid))
+            await asyncio.sleep(random.randint(170,190))
+            task = asyncio.ensure_future(TvRaffleHandler.notice(raffle_id,real_roomid))
+            tasklist.append(task)
+            await asyncio.wait(tasklist, return_when=asyncio.FIRST_COMPLETED)
         elif code == -500:
             Log.error("-500繁忙,稍后重试")
+            return False
         elif code == 400:
             Log.error("当前账号正在小黑屋中")
+            return False
 
     @staticmethod
     async def notice(raffleid,real_roomid):
@@ -61,4 +66,4 @@ class TvRaffleHandler:
             elif data["data"]["gift_id"] != "-1":
                 data = data["data"]
                 Log.critical("房间 %s 小电视抽奖结果: %s X %s"%(real_roomid,data["gift_name"],data["gift_num"]))
-                #Statistics.add2results(data["gift_name"],data["gift_num"])
+                Statistics.add2results(data["gift_name"],int(data["gift_num"]))

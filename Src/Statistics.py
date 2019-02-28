@@ -12,6 +12,7 @@ class Statistics:
             cls.instance.pushed_raffle = {}
             
             cls.instance.joined_raffle = {}
+            cls.instance.raffle_results = {}
             cls.instance.result = {}
             # cls.instance.TVsleeptime = 185
             # cls.instance.activitysleeptime = 125
@@ -37,11 +38,12 @@ class Statistics:
 
         print()
         print('本次抽奖结果统计：')
-        results_of_id = inst.raffle_results.get()
-        for k, v in results_of_id.items():
+        results = inst.results.get()
+        for k, v in results.items():
             print(f'{v:^5} X {k}')
     
-    def add2pushed_raffles(self,raffle_name,broadcast_type,num):
+    @staticmethod
+    def add2pushed_raffles(raffle_name,broadcast_type=0,num=1):
         inst = Statistics.instance
         # broadcast_type 广播类型 0 全区广播 1 分区广播 2 本房间
         if broadcast_type == 0:
@@ -49,38 +51,25 @@ class Statistics:
         else:
             inst.pushed_raffle[raffle_name] = inst.pushed_raffle.get(raffle_name, 0) + int(num)
 
-    def add2joined_raffles(self,raffle_name,num):
+    @staticmethod
+    def add2joined_raffles(raffle_name,num=1):
         inst = Statistics.instance
         inst.joined_raffle[type] = inst.joined_raffle.get(type, 0) + int(num)
 
-    def add2results(self,gift_name,num=1):
-        results_of_id  = self.raffle_results[0]
-        results_of_id[gift_name] = results_of_id.get(gift_name,0) + num
+    @staticmethod
+    def add2results(type,num=1):
+        inst = Statistics.instance
+        inst.result[type] = inst.result.get(type, 0) + int(num)
 
-    def add2raffle_ids(self,raffle_id):
+    @staticmethod
+    def add2raffle_ids(raffle_id):
         inst = Statistics.instance
         inst.list_raffle_id.append(raffle_id)
 
-        if len(inst.ist_raffle_id) > 150:
+        if len(inst.list_raffle_id) > 150:
             del inst.list_raffle_id[:75]
-        
-    def is_raffleid_duplicate(self,raffle_id):
+
+    @staticmethod
+    def is_raffleid_duplicate(raffle_id):
         inst = Statistics.instance
         return (raffle_id in inst.list_raffle_id)
-
-var = Statistics()
-
-def add2pushed_raffles(raffle_name,broadcast_type=0,num=1):
-    var.add2pushed_raffles(raffle_name,broadcast_type,int(num))
-
-def add2joined_raffles(raffle_name,num=1):
-    var.add2joined_raffles(raffle_name,int(num))
-
-def add2results(gift_name,num=1):
-    var.add2results(gift_name,int(num))
-
-def add2raffle_ids(raffle_id):
-    var.add2raffle_ids(int(raffle_id))
-
-def is_raffleid_duplicate(raffle_id):
-    return var.is_raffleid_duplicate(int(raffle_id))

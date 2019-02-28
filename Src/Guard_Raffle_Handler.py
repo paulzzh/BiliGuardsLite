@@ -1,13 +1,13 @@
 import re
 import random
 import asyncio
-import Statistics
 import platform
 if platform.system() == "Windows":
     from Windows_Log import Log
 else:
     from Unix_Log import Log
 from Live import Live
+from Statistics import Statistics
 from AsyncioCurl import AsyncioCurl
 from BasicRequest import BasicRequest
 from config import config

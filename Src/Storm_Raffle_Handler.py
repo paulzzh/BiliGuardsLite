@@ -1,5 +1,4 @@
 import time
-import Statistics
 import platform
 if platform.system() == "Windows":
     from Windows_Log import Log
@@ -8,6 +7,7 @@ else:
 from Base import msign,get_default
 from Live import Live
 from Timer import Timer
+from Statistics import Statistics
 from AsyncioCurl import AsyncioCurl
 from BasicRequest import BasicRequest
 from raffle_handler import RaffleHandler
@@ -29,6 +29,7 @@ class StormRaffleHandler:
             if not Statistics.is_raffleid_duplicate(raffle_id):
                 Log.info("本次获取到的抽奖id为 %s")
                 list_available_raffleid.append(raffle_id)
+                Statistics.add2raffle_ids(raffle_id)
             for raffle_id,time_wanted in list_available_raffleid:
                 Timer.add2list_jobs(StormRaffleHandler.join,time_wanted,(room_id,raffle_id))
     
@@ -42,4 +43,4 @@ class StormRaffleHandler:
             gift_name = data["gift_name"]
             gift_num = data["gift_num"]
             Log.critical("房间 %s 节奏风暴抽奖结果: %s X %s")
-            Statistics.add2results(gift_name,gift_num)
+            Statistics.add2results(gift_name,int(gift_num))

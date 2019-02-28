@@ -1,16 +1,27 @@
+# BiliBiliHelper Python Version
+# Copy right (c) 2019 TheWanderingCoel
+# 本文件实现了项目的Unix下日志功能,彩色输出以及写入文件
+# 无奈ctypes的那个方法无法在Windows以外系统实现
+# 只能写了一个在Unix下实现的日志的模块
+
 import sys
 import time
 
 class Loggger():
-    debug_level = 0
-    info_level = 1
-    warning_level = 2
-    error_level =3
+
+    level = {
+        "debug":0,
+        "info":1,
+        "warning":2,
+        "error":3,
+        "critical":4
+    }
+
     def __init__(self,filename):
         self.filename = filename
 
     def debug(self,data):
-        data = f"{self.timestamp()} [Line:{sys._getframe().f_lineno}] - DEBUG: {data}"
+        data = f"{self.timestamp()} - {__file__}[Line:{sys._getframe().f_lineno}] - DEBUG: {data}"
         print("\033[34;1m"+data+"\033[0m")
         with open(self.filename,"a",encoding="utf-8") as f:
             f.write(data+"\n")

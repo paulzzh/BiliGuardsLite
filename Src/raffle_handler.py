@@ -18,7 +18,7 @@ class RaffleHandler:
             list_raffle = [self.queue.get_nowait() for i in range(self.queue.qsize())]
             list_raffle.append(raffle0)
             list_raffle = list(set(list_raffle))
-            
+
             tasklist = []
             for i in list_raffle:
                 i = list(i)

@@ -3,7 +3,6 @@ import json
 import struct # struct模块来解决str和其他二进制数据类型的转换
 import asyncio
 import aiohttp
-import Statistics
 import raffle_handler
 import platform
 if platform.system() == "Windows":
@@ -11,6 +10,7 @@ if platform.system() == "Windows":
 else:
     from Unix_Log import Log
 from Live import Live
+from Statistics import Statistics
 from Tv_Raffle_Handler import TvRaffleHandler
 from Guard_Raffle_Handler import GuardRaffleHandler
 from Storm_Raffle_Handler import StormRaffleHandler
@@ -228,7 +228,7 @@ class DanmuRaffleHandler(BaseDanmu):
                 raffle_handler.RaffleHandler.push2queue((real_roomid,),TvRaffleHandler.check)
                 # 如果不是全区就设置为1(分区)
                 broadcast_type = 0 if broadcast == '全区' else 1
-                #Statistics.add2pushed_raffles(raffle_name,broadcast_type,raffle_num)
+                Statistics.add2pushed_raffles(raffle_name,broadcast_type,raffle_num)
             # 大航海
             elif msg_type == 3:
                 raffle_name = msg_common.split("开通了")[-1][:2]
@@ -236,13 +236,13 @@ class DanmuRaffleHandler(BaseDanmu):
                 raffle_handler.RaffleHandler.push2queue((real_roomid,),GuardRaffleHandler.check)
                 # 如果不是总督就设置为2(本房间)
                 broadcast_type = 0 if raffle_name == "总督" else 2
-                #Statistics.add2pushed_raffles(raffle_name,broadcast_type)
+                Statistics.add2pushed_raffles(raffle_name,broadcast_type)
             # 节奏风暴
             elif msg_type == 6:
                 raffle_name = "二十倍节奏风暴"
                 Log.critical("%s 号弹幕监控检测到 %s 的 %s"%(self._area_id,real_roomid,raffle_name))
                 raffle_handler.RaffleHandler.push2queue(StormRaffleHandler.check, real_roomid)
-                #Statistics.add2pushed_raffles((real_roomid,),StormRaffleHandler.check)
+                Statistics.add2pushed_raffles((real_roomid,),StormRaffleHandler.check)
         
         # 论缩进的重要性,缩进太多永远都是: 
         # 网络波动, X 号弹幕姬延迟3s后重启
