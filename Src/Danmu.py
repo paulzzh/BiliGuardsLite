@@ -185,7 +185,7 @@ class DanmuRaffleHandler(BaseDanmu):
                 await asyncio.sleep(300)
                 is_ok = await asyncio.shield(Live.is_ok_as_monitor(self._room_id,self._area_id))
                 if not is_ok:
-                    Log.warning("%s 不再适合作为监控房间，即将切换")
+                    Log.warning("%s 不再适合作为监控房间，即将切换"%self._room_id)
                     return
         except asyncio.CancelledError:
             pass

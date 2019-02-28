@@ -27,25 +27,25 @@ class Loggger():
             f.write(data+"\n")
 
     def info(self,data):
-        data = f"{self.timestamp()} [Line:{sys._getframe().f_lineno}] - INFO: {data}"
+        data = f"{self.timestamp()} - {__file__}[Line:{sys._getframe().f_lineno}] - INFO: {data}"
         print("\033[32;1m"+data+"\033[0m")
         with open(self.filename,"a",encoding="utf-8") as f:
             f.write(data+"\n")
 
     def warning(self,data):
-        data = f"{self.timestamp()} [Line:{sys._getframe().f_lineno}] - WARNING: {data}"
+        data = f"{self.timestamp()} - {__file__}[Line:{sys._getframe().f_lineno}] - WARNING: {data}"
         print("\033[33;1m"+data+"\033[0m")
         with open(self.filename,"a",encoding="utf-8") as f:
             f.write(data+"\n")
 
     def error(self,data):
-        data = f"{self.timestamp()} [Line:{sys._getframe().f_lineno}] - ERROR: {data}"
+        data = f"{self.timestamp()} - {__file__}[Line:{sys._getframe().f_lineno}] - ERROR: {data}"
         print("\033[31;1m"+data+"\033[0m")
         with open(self.filename,"a",encoding="utf-8") as f:
             f.write(data+"\n")
 
     def critical(self,data):
-        data = f"{self.timestamp()} [Line:{sys._getframe().f_lineno}] - CRITICAL: {data}"
+        data = f"{self.timestamp()} - {__file__}[Line:{sys._getframe().f_lineno}] - CRITICAL: {data}"
         print("\033[35;1m"+data+"\033[0m")
         with open(self.filename,"a",encoding="utf-8") as f:
             f.write(data+"\n")
