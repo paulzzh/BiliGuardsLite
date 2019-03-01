@@ -23,14 +23,14 @@ class GiftSend():
         self.roomid = 0
 
     def work(self):
-        print(self.lock)
         if config["Function"]["GIFTSEND"] == "False":
-            return
-        if self.lock > int(time.time()):
             return
 
         if self.ruid == 0:
             self.getRoomInfo()
+        
+        if self.lock > int(time.time()):
+            return
         
         payload = {}
         data = Curl().get("https://api.live.bilibili.com/gift/v2/gift/bag_list",payload)
@@ -73,7 +73,6 @@ class GiftSend():
             Log.warning("获取主播房间号失败!"+data["message"])
             Log.warning("清空礼物功能禁用!")
             self.lock = int(time.time()) + 100000000
-            print("set lock:",self.lock)
             return
 
         Log.info("直播间信息生成完毕!")
