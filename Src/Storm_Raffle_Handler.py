@@ -4,7 +4,6 @@ if platform.system() == "Windows":
     from Windows_Log import Log
 else:
     from Unix_Log import Log
-from Base import msign,get_default
 from Live import Live
 from Timer import Timer
 from Statistics import Statistics
