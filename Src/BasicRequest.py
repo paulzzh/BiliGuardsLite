@@ -95,3 +95,41 @@ class BasicRequest:
         url = "https://api.live.bilibili.com/room/v1/area/getRoomList?platform=web&parent_area_id=%s&cate_id=0&area_id=0&sort_type=online&page=1&page_size=15"%areaid
         response = await AsyncioCurl().request_json("GET",url)
         return response
+
+    @staticmethod
+    async def req_fetch_user_info():
+        url = "https://api.live.bilibili.com/i/api/liveinfo"
+        response = await AsyncioCurl().request_json("GET",url,headers=config["pcheaders"])
+        return response
+    
+    @staticmethod
+    async def req_fetch_bag_list():
+        url = "https://api.live.bilibili.com/gift/v2/gift/bag_list"
+        response = await AsyncioCurl().request_json("GET",url,headers=config["pcheaders"])
+        return response
+
+    @staticmethod
+    async def req_fetch_medal():
+        url = "https://api.live.bilibili.com/i/api/medal?page=1&pageSize=50"
+        response = await AsyncioCurl().request_json("GET",url,headers=config["pcheaders"])
+
+    @staticmethod
+    async def req_check_taskinfo():
+        url = "https://api.live.bilibili.com/i/api/taskInfo"
+        response = await AsyncioCurl().request_json("GET",url,headers=config["pcheaders"])
+        return response
+
+    @staticmethod
+    async def req_send_danmu(msg,roomId):
+        url = "https://api.live.bilibili.com/msg/send"
+        data = {
+            'color': '16777215',
+            'fontsize': '25',
+            'mode': '1',
+            'msg': msg,
+            'rnd': '0',
+            'roomid': int(roomId),
+            'csrf_token': config["Token"]["CSRF"],
+            'csrf': config["Token"]["CSRF"]
+        }
+        response = await AsyncioCurl().request_json("POST",url,data=data,headers=config["pcheaders"])
