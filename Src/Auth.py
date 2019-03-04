@@ -132,8 +132,10 @@ class Auth():
         config["Token"]["ACCESS_TOKEN"] = data["data"]["token_info"]["access_token"]
         config["Token"]["REFRESH_TOKEN"] = data["data"]["token_info"]["refresh_token"]
 
-        csrf,cookie = arrange_cookie(data)
+        csrf,uid,cookie = arrange_cookie(data)
         config["Token"]["CSRF"] = csrf
+        config["Token"]["UID"] = uid
+
         set_cookie(cookie)
 
         config.write()

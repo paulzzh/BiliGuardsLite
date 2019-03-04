@@ -1,7 +1,7 @@
 # BiliBiliHelper Python Version
 # Copy right (c) 2019 TheWanderingCoel
 # 不知道为什么,exec_fun总会报错
-# 说什么 'controller' object has no attribute 'xxx'
+# 说什么 "controller" object has no attribute "xxx"
 # 干脆直接把所有请求写在一个文件里了
 
 import time
@@ -123,13 +123,64 @@ class BasicRequest:
     async def req_send_danmu(msg,roomId):
         url = "https://api.live.bilibili.com/msg/send"
         data = {
-            'color': '16777215',
-            'fontsize': '25',
-            'mode': '1',
-            'msg': msg,
-            'rnd': '0',
-            'roomid': int(roomId),
-            'csrf_token': config["Token"]["CSRF"],
-            'csrf': config["Token"]["CSRF"]
+            "color": "16777215",
+            "fontsize": "25",
+            "mode": "1",
+            "msg": msg,
+            "rnd": "0",
+            "roomid": int(roomId),
+            "csrf_token": config["Token"]["CSRF"],
+            "csrf": config["Token"]["CSRF"]
         }
         response = await AsyncioCurl().request_json("POST",url,data=data,headers=config["pcheaders"])
+        return response
+    
+    @staticmethod
+    async def req_send_gift(giftid,giftnum,bagid,ruid,biz_id):
+        url = "https://api.live.bilibili.com/gift/v2/live/bag_send"
+        data = {
+            "uid": config["Token"]["UID"],
+            "gift_id": giftid,
+            "ruid": ruid,
+            "gift_num": giftnum,
+            "bag_id": bagid,
+            "platform": "pc",
+            "biz_code": "live",
+            "biz_id": biz_id,
+            "rnd": int(time.time()),
+            "storm_beat_id": "0",
+            "metadata": "",
+            "price": "0",
+            "csrf_token": config["Token"]["CSRF"]
+        }
+        response = await AsyncioCurl().request_json("POST",url,data=data,headers=config["pcheaders"])
+        return response
+
+    @staticmethod
+    async def req_fetch_liveuser_info(real_roomid):
+        url = "https://api.live.bilibili.com/live_user/v1/UserInfo/get_anchor_in_room?roomid=%s"%real_roomid
+        response = await AsyncioCurl().request_json("GET",url)
+        return response
+
+    @staticmethod
+    async def req_fetch_fan(real_roomid,uid):
+        url = "https://api.live.bilibili.com/rankdb/v1/RoomRank/webMedalRank?roomid=%s&ruid=%s"%(real_roomid,uid)
+        response = await AsyncioCurl().request_json("GET",url)
+        return response
+
+    @staticmethod
+    async def req_fetch_capsule_info():
+        url = "https://api.live.bilibili.com/api/ajaxCapsule"
+        response = await AsyncioCurl().request_json("GET",url,headers=config["pcheaders"])
+        return response
+
+    @staticmethod
+    async def req_open_capsule(count):
+        url = "https://api.live.bilibili.com/api/ajaxCapsuleOpen"
+        data = {
+            "type":"normal",
+            "count":count,
+            "csrf_token":config["Token"]["CSRF"]
+        }
+        response = await AsyncioCurl().request_json("POST",url,data=data,headers=config["pcheaders"])
+        return response

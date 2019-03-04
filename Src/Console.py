@@ -9,13 +9,13 @@ else:
     from Unix_Log import Log
 import asyncio
 from cmd import Cmd
-    
+from config import config
 
 def fetch_real_roomid(roomid):
     if roomid:
-        real_roomid = [[roomid], utils.check_room]
+        real_roomid = [[roomid], Live.check_room]
     else:
-        real_roomid = ConfigLoader().dic_user['other_control']['default_monitor_roomid']
+        real_roomid = config["Live"]["ROOM_ID"]
     return real_roomid
   
               
@@ -37,10 +37,9 @@ class Biliconsole(Cmd):
         print('|6 模拟电脑网页端发送弹幕     |')
         print('|7 直播间的长短号码的转化     |')
         print('|8 手动送礼物到指定直播间     |')
-        print('|9 切换监听的直播间          |')
-        print('|10 房间号码查看主播         |')
-        print('|11 当前拥有的扭蛋币         |')
-        print('|12 开扭蛋币(只能1，10，100) |')
+        print('|9 房间号码查看主播         |')
+        print('|10 当前拥有的扭蛋币         |')
+        print('|11 开扭蛋币(只能1，10，100) |')
         print('￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣')
         
     def default(self, line):
@@ -73,78 +72,28 @@ class Biliconsole(Cmd):
     def do_7(self, line):
         roomid = input('请输入要转化的房间号:')
         if not roomid:
-            roomid = config["Live"]
+            roomid = config["Live"]["ROOM_ID"]
         self.append2list_console([[roomid], Live.check_room])
     
     def do_8(self, line):
-        self.append2list_console([[True], utils.fetch_bag_list])
+        self.append2list_console([[True], Live.fetch_bag_list])
         bagid = input('请输入要发送的礼物编号:')
-        # print('是谁', giftid)
         giftnum = int(input('请输入要发送的礼物数目:'))
         roomid = input('请输入要发送的房间号:')
         real_roomid = fetch_real_roomid(roomid)
-        self.append2list_console([[real_roomid, giftnum, bagid], utils.send_gift_web])
-    
+        self.append2list_console([[real_roomid, giftnum, bagid], Live.send_gift])
+            
     def do_9(self, line):
         roomid = input('请输入roomid')
         real_roomid = fetch_real_roomid(roomid)
-        self.append2list_console([[real_roomid], connect.reconnect])
-        
-    def do_10(self, line):
-        new_words = input('弹幕控制')
-        if new_words == 'T':
-            printer.control_printer(True, None)
-        else:
-            printer.control_printer(False, None)
-            
-    def do_11(self, line):
-        roomid = input('请输入roomid')
-        real_roomid = fetch_real_roomid(roomid)
-        self.append2list_console([[real_roomid], utils.fetch_liveuser_info])
+        self.append2list_console([[real_roomid], Live.fetch_liveuser_info])
     
-    def do_12(self, line):
-        self.append2list_console(utils.fetch_capsule_info)
+    def do_10(self, line):
+        self.append2list_console(Live.fetch_capsule_info)
         
     def do_13(self, line):
         count = input('请输入要开的扭蛋数目(1或10或100)')
-        self.append2list_console([[count], utils.open_capsule])
-        
-    def do_14(self, line):
-        if sys.platform == 'ios':
-            roomid = input('请输入roomid')
-            real_roomid = fetch_real_roomid(roomid)
-            self.append2list_console([[real_roomid], utils.watch_living_video])
-            return
-        print('仅支持ios')
-        
-    def do_15(self, line):
-        self.append2list_console(utils.TitleInfo)
-        
-    def do_16(self, line):
-        self.append2list_console(OnlineHeart.draw_lottery)
-        
-    def do_17(self, line):
-        new_words = input('debug控制')
-        if new_words == 'T':
-            printer.control_printer(None, True)
-        else:
-            printer.control_printer(None, True)
-            
-    def do_18(self, line):
-        video_id = input('请输入av号')
-        num = input('输入数目')
-        self.append2list_console([[int(video_id), int(num)], utils.GiveCoin2Av])
-        
-    def do_19(self, line):
-        try:
-            roomid = int(input('输入roomid'))
-            self.append2list_console([[(roomid,), rafflehandler.handle_1_room_guard], rafflehandler.Rafflehandler.Put2Queue_wait])
-        except:
-            pass
-        
-    def do_check(self, line):
-        Rafflehandler.getlist()
-        Statistics.checklist()
+        self.append2list_console([[count], Live.open_capsule])
         
     def append2list_console(self, request):
         asyncio.run_coroutine_threadsafe(self.excute_async(request), self.loop)
@@ -152,10 +101,8 @@ class Biliconsole(Cmd):
         
     async def excute_async(self, i):
         if isinstance(i, list):
-            # 对10号单独简陋处理
             for j in range(len(i[0])):
                 if isinstance(i[0][j], list):
-                    # print('检测')
                     i[0][j] = await i[0][j][1](*(i[0][j][0]))
             if i[1] == 'normal':
                 i[2](*i[0])

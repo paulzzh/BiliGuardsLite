@@ -63,7 +63,7 @@ def arrange_cookie(array):
      cookie = ""
      for i in range(0, len(cookie_array)):
           cookie = cookie + cookie_array[i]["name"] + "=" + cookie_array[i]["value"] + ";"
-     return cookie_array[0]["value"],cookie
+     return cookie_array[0]["value"],cookie_array[1]["value"],cookie
 
 # 获取当天晚上23点59分59秒的时间戳
 def std235959():
@@ -93,3 +93,18 @@ def get_default():
 def set_cookie(cookie):
      config["Token"]["COOKIE"] = cookie
      config["pcheaders"]["cookie"] = cookie
+
+def adjust_for_chinese(str):
+    SPACE = '\N{IDEOGRAPHIC SPACE}'
+    EXCLA = '\N{FULLWIDTH EXCLAMATION MARK}'
+    TILDE = '\N{FULLWIDTH TILDE}'
+
+    # strings of ASCII and full-width characters (same order)
+    west = ''.join(chr(i) for i in range(ord(' '), ord('~')))
+    east = SPACE + ''.join(chr(i) for i in range(ord(EXCLA), ord(TILDE)))
+
+    # build the translation table
+    full = str.maketrans(west, east)
+    str = str.translate(full).rstrip().split('\n')
+    md = f'{str[0]:^10}'
+    return md.translate(full)

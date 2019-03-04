@@ -8,6 +8,7 @@ if platform.system() == "Windows":
 else:
     from Unix_Log import Log
 from config import config
+from operator import itemgetter
 from AsyncioCurl import AsyncioCurl
 
 class Live:
@@ -218,4 +219,59 @@ class Live:
             data = data["data"]
 
             if not data["short_id"]:
-                Log.warning
+                Log.warning("此房间无短号")
+            else:
+                Log.info("短号为:"+data["short_id"])
+            Log.info("真实房间号为:"+data["room_id"])
+            return data["room_id"]
+        elif data["code"] == 60004:
+            Log.warning(data["msg"])
+
+    @staticmethod
+    async def send_gift(roomid,num_wanted,bagid,giftid=None):
+        if giftid is None:
+            giftid,num_owned = await Live.fetch_bag_list(False,bagid)
+            num_wanted = min(num_owned,num_wanted)
+        if not num_wanted:
+            return
+        data = await BasicRequest.init_room(roomid)
+        ruid = data["data"]["uid"]
+        biz_id = data["data"]["room_id"]
+        data1 = await BasicRequest.req_send_gift(giftid,num_wanted,bagid,ruid,biz_id)
+        if not data1["code"]:
+            Log.info(f'送出礼物: {data1["data"]["gift_name"]} X {data1["data"]["gift_num"]}')
+        else:
+            Log.error("错误: "+data1["message"])
+
+    @staticmethod
+    async def fetch_liveuser_info(real_roomid):
+        data = await BasicRequest.req_fetch_liveuser_info(real_roomid)
+        if not data["code"]:
+            data = data["data"]
+            Log.info("主播昵称: "+data["info"]["uname"])
+
+            uid = data["level"]["uid"]
+            data_fan = await BasicRequest.req_fetch_fan(real_roomid,uid)
+            data_fan = data_fan["data"]
+            if not data_fan["code"] and data_fan["medal"]["status"] == 2:
+                Log.info("勋章名称: "+data_fan["list"][0]["medal_name"])
+            else:
+                Log.warning("此主播暂时没有开通勋章")
+
+    @staticmethod
+    async def fetch_capsule_info():
+        data = await BasicRequest.req_fetch_capsule_info()
+        if not data["code"]:
+            data = data["data"]
+
+        if data["normal"]["status"]:
+            Log.info("普通扭蛋币: "+data["normal"]["coin"]+" 个")
+        else:
+            Log.warning("普通扭蛋币暂不可用")
+
+    @staticmethod
+    async def open_capsule(count):
+        data = await BasicRequest.req_open_capsule(count)
+        if not data["code"]:
+            for i in data["data"]["next"]:
+                Log.info(i)
