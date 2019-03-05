@@ -26,6 +26,9 @@ class GiftSend():
         if config["Function"]["GIFTSEND"] == "False":
             return
 
+        if self.lock > int(time.time()):
+            return
+
         if self.ruid == 0:
             self.getRoomInfo()
         

@@ -51,7 +51,6 @@ other_tasks = [
 ]
 
 console_thread = threading.Thread(target=console.cmdloop)
-
 console_thread.start()
 
 # 先登陆一次,防止速度太快导致抽奖模块出错
@@ -69,8 +68,12 @@ def daily_job():
         # 休息0.5s,减少CPU占用
         time.sleep(0.5)
 
+daily_job_thread = threading.Thread(target=daily_job)
+daily_job_thread.start()
+
 loop.run_until_complete(asyncio.wait(danmu_tasks+other_tasks))
 
 console_thread.join()
+daily_job_thread.join()
 
 loop.close()
