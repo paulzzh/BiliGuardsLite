@@ -241,7 +241,7 @@ class DanmuRaffleHandler(BaseDanmu):
             elif msg_type == 6:
                 raffle_name = "二十倍节奏风暴"
                 Log.critical("%s 号弹幕监控检测到 %s 的 %s"%(self._area_id,real_roomid,raffle_name))
-                raffle_handler.RaffleHandler.push2queue(StormRaffleHandler.check, real_roomid)
+                raffle_handler.RaffleHandler.push2queue((real_roomid,),StormRaffleHandler.check)
                 Statistics.add2pushed_raffles((real_roomid,),StormRaffleHandler.check)
         
         # 论缩进的重要性,缩进太多永远都是: 
