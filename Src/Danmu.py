@@ -225,7 +225,7 @@ class DanmuRaffleHandler(BaseDanmu):
                     raffle_name = str_gift
                 broadcast = msg_common.split("广播")[0]
                 Log.critical("%s 号弹幕监控检测到 %s 的 %s"%(self._area_id,real_roomid,raffle_name))
-                raffle_handler.RaffleHandler.push2queue((real_roomid,),TvRaffleHandler.check)
+                raffle_handler.RaffleHandler.push2queue((real_roomid,raffle_name,),TvRaffleHandler.check)
                 # 如果不是全区就设置为1(分区)
                 broadcast_type = 0 if broadcast == '全区' else 1
                 Statistics.add2pushed_raffles(raffle_name,broadcast_type,raffle_num)

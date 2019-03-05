@@ -16,7 +16,7 @@ from BasicRequest import BasicRequest
 class TvRaffleHandler:
 
     @staticmethod
-    async def check(real_roomid):
+    async def check(real_roomid,raffle_name):
         if not await Live.is_normal_room(real_roomid):
             return
         data = await BasicRequest.tv_req_check(real_roomid)
@@ -34,21 +34,21 @@ class TvRaffleHandler:
         # 暂时没啥用    
         #num_aviable = len(list_available_raffleid)
         for raffle_id,raffle_type,time_wanted in list_available_raffleid:
-            Timer.add2list_jobs(TvRaffleHandler.join,time_wanted,(real_roomid,raffle_id,raffle_type))
+            Timer.add2list_jobs(TvRaffleHandler.join,time_wanted,(real_roomid,raffle_id,raffle_type,raffle_name))
 
     @staticmethod
-    async def join(real_roomid,raffle_id,raffle_type):
+    async def join(real_roomid,raffle_id,raffle_type,raffle_name):
         await Live.enter_room(real_roomid)
         data2 = await BasicRequest.tv_req_join(real_roomid,raffle_id)
-        Log.info("参与了房间 %s 的小电视抽奖"%(real_roomid))
-        Log.info("小电视抽奖状态: %s"%data2["msg"])
+        Log.info("参与了房间 %s 的 %s 抽奖"%(real_roomid,raffle_name))
+        Log.info("%s 抽奖状态: %s"%(raffle_name,data2["msg"]))
         Statistics.add2joined_raffles("小电视类(合计)")
 
         code = data2["code"]
         tasklist = []
         if not code:
             await asyncio.sleep(random.randint(170,190))
-            task = asyncio.ensure_future(TvRaffleHandler.notice(raffle_id,real_roomid))
+            task = asyncio.ensure_future(TvRaffleHandler.notice(raffle_id,real_roomid,raffle_name))
             tasklist.append(task)
             await asyncio.wait(tasklist, return_when=asyncio.FIRST_COMPLETED)
         elif code == -500:
@@ -59,12 +59,12 @@ class TvRaffleHandler:
             return False
 
     @staticmethod
-    async def notice(raffleid,real_roomid):
+    async def notice(raffleid,real_roomid,raffle_name):
         data = await BasicRequest.tv_req_notice(real_roomid,raffleid)
         if not data["code"]:
             if data["data"]["gift_id"] == "-1":
                 return
             elif data["data"]["gift_id"] != "-1":
                 data = data["data"]
-                Log.critical("房间 %s 小电视抽奖结果: %s X %s"%(real_roomid,data["gift_name"],data["gift_num"]))
+                Log.critical("房间 %s %s抽奖结果: %s X %s"%(real_roomid,raffle_name,data["gift_name"],data["gift_num"]))
                 Statistics.add2results(data["gift_name"],int(data["gift_num"]))
