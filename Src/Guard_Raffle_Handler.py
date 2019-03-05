@@ -54,7 +54,6 @@ class GuardRaffleHandler:
     @staticmethod
     async def join(num,real_roomid,raffle_id):
         await asyncio.sleep(random.uniform(0.5, min(30, num * 1.3)))
-        await Live.is_normal_room(real_roomid)
         data = await BasicRequest.guard_req_join(real_roomid,raffle_id)
         Log.info("参与了房间 %s 的大航海抽奖"%(real_roomid))
         if not data["code"]:
