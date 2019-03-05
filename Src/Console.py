@@ -83,7 +83,7 @@ class Console(Cmd):
         self.append2list_console([[real_roomid, giftnum, bagid], Live.send_gift])
             
     def do_9(self, line):
-        roomid = input('请输入roomid')
+        roomid = input('请输入roomid:')
         real_roomid = fetch_real_roomid(roomid)
         self.append2list_console([[real_roomid], Live.fetch_liveuser_info])
     
@@ -91,7 +91,7 @@ class Console(Cmd):
         self.append2list_console(Live.fetch_capsule_info)
         
     def do_11(self, line):
-        count = input('请输入要开的扭蛋数目(1或10或100)')
+        count = input('请输入要开的扭蛋数目(1或10或100):')
         self.append2list_console([[count], Live.open_capsule])
         
     def append2list_console(self, request):

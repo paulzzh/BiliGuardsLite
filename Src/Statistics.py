@@ -29,22 +29,19 @@ class Statistics:
     @staticmethod
     def print_statistics():
         inst = Statistics.instance
-        Log.info("本次推送抽奖统计:")
+        print("本次推送抽奖统计:")
         for k,v in inst.pushed_raffles.items():
-            if isinstance(v,int):
-                Log.info(f'{v:^5} X {k}')
-            else:
-                Log.info(f'{v:^5.2f} X {k}')
+            print(f'{v:^5.2f} X {k}')
 
         print()
-        Log.info('本次参与抽奖统计：')
+        print('本次参与抽奖统计：')
         for k, v in inst.joined_raffles.items():
-            Log.info(f'{v:^5} X {k}')
+            print(f'{v:^5} X {k}')
 
         print()
-        Log.info('本次抽奖结果统计：')
+        print('本次抽奖结果统计：')
         for k, v in inst.results.items():
-            Log.info(f'{v:^5} X {k}')
+            print(f'{v:^5} X {k}')
     
     @staticmethod
     def add2pushed_raffles(raffle_name,broadcast_type=0,num=1):

@@ -9,6 +9,7 @@ else:
     from Unix_Log import Log
 from config import config
 from operator import itemgetter
+from CPrint import cprint
 from AsyncioCurl import AsyncioCurl
 
 class Live:
@@ -85,7 +86,7 @@ class Live:
     @staticmethod
     async def fetch_user_info():
         data = await BasicRequest.req_fetch_user_info()
-        Log.info("查询用户信息...")
+        print("查询用户信息...")
         if not 0:
             data = data["data"]
             userInfo = data["userInfo"]
@@ -103,29 +104,29 @@ class Live:
             user_level_rank = userCoinIfo["user_level_rank"]
             biliCoin = userCoinIfo["coins"]
             bili_coins = userCoinIfo["bili_coins"]
-            Log.info("用户名:"+uname)
-            Log.info(f"手机认证状态 {mobile_verify} | 实名认证状态 {identification}")
-            Log.info("银瓜子:"+str(silver))
-            Log.info("金瓜子:"+str(gold))
-            Log.info("硬币数:"+str(biliCoin))
-            Log.info("B币数:"+str(bili_coins))
-            Log.info("成就值:"+str(achieve))
-            Log.info("等级值:"+str(user_level)+"———>"+str(user_next_level))
-            Log.info("经验值:"+str(user_intimacy))
-            Log.info("剩余值:"+str(user_next_intimacy-user_next_intimacy))
+            print("用户名:"+uname)
+            print(f"手机认证状态 {mobile_verify} | 实名认证状态 {identification}")
+            print("银瓜子:"+str(silver))
+            print("金瓜子:"+str(gold))
+            print("硬币数:"+str(biliCoin))
+            print("B币数:"+str(bili_coins))
+            print("成就值:"+str(achieve))
+            print("等级值:"+str(user_level)+"———>"+str(user_next_level))
+            print("经验值:"+str(user_intimacy))
+            print("剩余值:"+str(user_next_intimacy-user_next_intimacy))
             arrow = int(user_intimacy * 30 / user_next_intimacy)
             line = 30 - arrow
             percent = user_intimacy / user_next_intimacy * 100.0
             process_bar = "# [" + ">" * arrow + "-" * line + "]" + "%.2f" % percent + "%"
-            Log.info(process_bar)
-            Log.info("等级榜:"+str(user_level_rank))
+            print(process_bar)
+            print("等级榜:"+str(user_level_rank))
 
     @staticmethod
     async def fetch_bag_list(verbose=False,bagid=None,show=True):
         data = await BasicRequest.req_fetch_bag_list()
         gift_list = []
         if show:
-            Log.info("查询可用礼物...")
+            print("查询可用礼物...")
         for i in data["data"]["list"]:
             bag_id = i["bag_id"]
             gift_id = i["gift_id"]
@@ -143,9 +144,9 @@ class Live:
                     return gift_id,gift_num
             else:
                 if verbose:
-                    Log.info(f"编号为 {bag_id} 的 {gift_name:^3} X {gift_num:^4} (在 {left_days:^6} 天后过期)")
+                    print(f"编号为 {bag_id} 的 {gift_name:^3} X {gift_num:^4} (在 {left_days:^6} 天后过期)")
                 elif show:
-                    Log.info(f" {gift_name:^3} X {gift_num:^4} (在 {left_days:^6} 天后过期)")
+                    print(f" {gift_name:^3} X {gift_num:^4} (在 {left_days:^6} 天后过期)")
                 
             gift_list.append([gift_id,gift_num,bag_id,left_time])
             return gift_list
@@ -159,25 +160,25 @@ class Live:
             sign_info = data["sign_info"]
         
         if double_watch_info["status"] == 1:
-            Log.warning("双端观看直播已完成，但未领取奖励")
+            print("双端观看直播已完成，但未领取奖励")
         elif double_watch_info["status"] == 2:
-            Log.info("双端观看直播已完成，已经领取奖励")
+            print("双端观看直播已完成，已经领取奖励")
         else:
-            Log.warning("双端观看直播未完成")
+            print("双端观看直播未完成")
             if double_watch_info["web_watch"] == 1:
-                Log.info("网页端观看任务已完成")
+                print("网页端观看任务已完成")
             else:
-                Log.warning("网页端观看任务未完成")
+                print("网页端观看任务未完成")
 
             if double_watch_info["mobile_watch"] == 1:
-                Log.info("移动端观看任务已完成")
+                print("移动端观看任务已完成")
             else:
-                Log.warning("移动端观看任务未完成")
+                print("移动端观看任务未完成")
         
         if sign_info["status"] == 1:
-            Log.info("每日签到已完成")
+            print("每日签到已完成")
         else:
-            Log.warning("每日签到未完成")
+            print("每日签到未完成")
         
     @staticmethod
     async def fetch_medal(show=True,list_wanted_mendal=None):
@@ -195,7 +196,7 @@ class Live:
                     if show:
                         printlist.append("{} {} {:^14} {:^14} {} {:^6} {:^9}".format(adjust_for_chinese(i["medal_name"] + "|" + str(i["level"])), adjust_for_chinese(i["anchorInfo"]["uname"]), str(i["intimacy"]) + "/" + str(i["next_intimacy"]), str(i["todayFeed"]) + "/" + str(i["dayLimit"]), adjust_for_chinese(str(i["rank"])), dic_worn[str(i["status"])], i["roomid"]))
         if show:
-            Log.info(printlist,True)
+            cprint(printlist)
         if list_wanted_mendal is not None:
             list_return_medal = []
             for roomid in list_wanted_mendal:
@@ -217,15 +218,14 @@ class Live:
         data = await BasicRequest.init_room(roomid)
         if not data["code"]:
             data = data["data"]
-            print(data)
             if not data["short_id"]:
-                Log.warning("此房间无短号")
+                print("此房间无短号")
             else:
-                Log.info("短号为:"+str(data["short_id"]))
-            Log.info("真实房间号为:"+str(data["room_id"]))
+                print("短号为:"+str(data["short_id"]))
+            print("真实房间号为:"+str(data["room_id"]))
             return data["room_id"]
         elif data["code"] == 60004:
-            Log.warning(data["msg"])
+            print(data["msg"])
 
     @staticmethod
     async def send_gift(roomid,num_wanted,bagid,giftid=None):
@@ -239,24 +239,24 @@ class Live:
         biz_id = data["data"]["room_id"]
         data1 = await BasicRequest.req_send_gift(giftid,num_wanted,bagid,ruid,biz_id)
         if not data1["code"]:
-            Log.info(f'送出礼物: {data1["data"]["gift_name"]} X {data1["data"]["gift_num"]}')
+            print(f'送出礼物: {data1["data"]["gift_name"]} X {data1["data"]["gift_num"]}')
         else:
-            Log.error("错误: "+data1["message"])
+            print("错误: "+data1["message"])
 
     @staticmethod
     async def fetch_liveuser_info(real_roomid):
         data = await BasicRequest.req_fetch_liveuser_info(real_roomid)
         if not data["code"]:
             data = data["data"]
-            Log.info("主播昵称: "+data["info"]["uname"])
+            print("主播昵称: "+data["info"]["uname"])
 
             uid = data["level"]["uid"]
             data_fan = await BasicRequest.req_fetch_fan(real_roomid,uid)
             data_fan = data_fan["data"]
             if not data_fan["code"] and data_fan["medal"]["status"] == 2:
-                Log.info("勋章名称: "+data_fan["list"][0]["medal_name"])
+                print("勋章名称: "+data_fan["list"][0]["medal_name"])
             else:
-                Log.warning("此主播暂时没有开通勋章")
+                print("此主播暂时没有开通勋章")
 
     @staticmethod
     async def fetch_capsule_info():
@@ -265,13 +265,13 @@ class Live:
             data = data["data"]
 
         if data["normal"]["status"]:
-            Log.info("普通扭蛋币: "+str(data["normal"]["coin"])+" 个")
+            print("普通扭蛋币: "+str(data["normal"]["coin"])+" 个")
         else:
-            Log.warning("普通扭蛋币暂不可用")
+            print("普通扭蛋币暂不可用")
 
     @staticmethod
     async def open_capsule(count):
         data = await BasicRequest.req_open_capsule(count)
         if not data["code"]:
             for i in data["data"]["text"]:
-                Log.info(i)
+                print(i)
