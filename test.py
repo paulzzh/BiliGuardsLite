@@ -1,6 +1,4 @@
 import sys
 sys.path.append("Src")
-from Auth import Auth
-
-Auth = Auth()
-Auth.work()
+from Windows_Log import Log
+Log.info()

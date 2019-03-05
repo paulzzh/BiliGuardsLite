@@ -86,39 +86,39 @@ class Live:
     async def fetch_user_info():
         data = await BasicRequest.req_fetch_user_info()
         Log.info("查询用户信息...")
-        if not data["code"]:
+        if not 0:
             data = data["data"]
             userInfo = data["userInfo"]
-            userCoinInfo = data["userCoinInfo"]
+            userCoinIfo = data["userCoinIfo"]
             uname = userInfo["uname"]
             achieve = data["achieves"]
-            user_level = userCoinInfo["user_level"]
-            silver = userCoinInfo["silver"]
-            gold = userCoinInfo["gold"]
+            user_level = userCoinIfo["user_level"]
+            silver = userCoinIfo["silver"]
+            gold = userCoinIfo["gold"]
             identification = bool(userInfo["identification"])
             mobile_verify = bool(userInfo["mobile_verify"])
-            user_next_level = userCoinInfo["user_next_level"]
-            user_intimacy = userCoinInfo["user_intimacy"]
-            user_next_intimacy = userCoinInfo["user_next_intimacy"]
-            user_level_rank = userCoinInfo["user_level_rank"]
-            billCoin = userCoinInfo["coins"]
-            bili_coins = userCoinInfo["bili_coins"]
+            user_next_level = userCoinIfo["user_next_level"]
+            user_intimacy = userCoinIfo["user_intimacy"]
+            user_next_intimacy = userCoinIfo["user_next_intimacy"]
+            user_level_rank = userCoinIfo["user_level_rank"]
+            biliCoin = userCoinIfo["coins"]
+            bili_coins = userCoinIfo["bili_coins"]
             Log.info("用户名:"+uname)
             Log.info(f"手机认证状态 {mobile_verify} | 实名认证状态 {identification}")
-            Log.info("银瓜子:"+silver)
-            Log.info("金瓜子:"+gold)
-            Log.info("硬币数:"+billCoin)
-            Log.info("B币数:"+bili_coins)
-            Log.info("成就值:"+achieve)
-            Log.info("等级值:"+user_level+"———>"+user_next_level)
-            Log.info("经验值:"+user_intimacy)
-            Log.info("剩余值:"+user_next_intimacy-user_next_intimacy)
+            Log.info("银瓜子:"+str(silver))
+            Log.info("金瓜子:"+str(gold))
+            Log.info("硬币数:"+str(biliCoin))
+            Log.info("B币数:"+str(bili_coins))
+            Log.info("成就值:"+str(achieve))
+            Log.info("等级值:"+str(user_level)+"———>"+str(user_next_level))
+            Log.info("经验值:"+str(user_intimacy))
+            Log.info("剩余值:"+str(user_next_intimacy-user_next_intimacy))
             arrow = int(user_intimacy * 30 / user_next_intimacy)
             line = 30 - arrow
             percent = user_intimacy / user_next_intimacy * 100.0
             process_bar = "# [" + ">" * arrow + "-" * line + "]" + "%.2f" % percent + "%"
             Log.info(process_bar)
-            Log.info("等级榜:"+user_level_rank)
+            Log.info("等级榜:"+str(user_level_rank))
 
     @staticmethod
     async def fetch_bag_list(verbose=False,bagid=None,show=True):
@@ -126,7 +126,7 @@ class Live:
         gift_list = []
         if show:
             Log.info("查询可用礼物...")
-        for i in data:
+        for i in data["data"]["list"]:
             bag_id = i["bag_id"]
             gift_id = i["gift_id"]
             gift_num = i["gift_num"]
@@ -145,7 +145,7 @@ class Live:
                 if verbose:
                     Log.info(f"编号为 {bag_id} 的 {gift_name:^3} X {gift_num:^4} (在 {left_days:^6} 天后过期)")
                 elif show:
-                    Log.info(f" {gift_name:^3} X {gift_num:^4} (在 {left_days:^6} 后过期")
+                    Log.info(f" {gift_name:^3} X {gift_num:^4} (在 {left_days:^6} 天后过期)")
                 
             gift_list.append([gift_id,gift_num,bag_id,left_time])
             return gift_list
@@ -184,7 +184,7 @@ class Live:
         printlist = []
         list_medal = []
         if show:
-            printlist.append("查询勋章信息")
+            printlist.append("查询勋章信息...")
             printlist.append("{} {} {:^12} {:^10} {} {:^6} {}".format(adjust_for_chinese("勋章"), adjust_for_chinese("主播昵称"), "亲密度", "今日的亲密度", adjust_for_chinese("排名"), "勋章状态", "房间号码"))
         dic_worn = {"1":"正在佩戴","0":"待机状态"}
         data = await BasicRequest.req_fetch_medal()
@@ -195,7 +195,7 @@ class Live:
                     if show:
                         printlist.append("{} {} {:^14} {:^14} {} {:^6} {:^9}".format(adjust_for_chinese(i["medal_name"] + "|" + str(i["level"])), adjust_for_chinese(i["anchorInfo"]["uname"]), str(i["intimacy"]) + "/" + str(i["next_intimacy"]), str(i["todayFeed"]) + "/" + str(i["dayLimit"]), adjust_for_chinese(str(i["rank"])), dic_worn[str(i["status"])], i["roomid"]))
         if show:
-            Log.info(printlist)
+            Log.info(printlist,True)
         if list_wanted_mendal is not None:
             list_return_medal = []
             for roomid in list_wanted_mendal:
@@ -217,12 +217,12 @@ class Live:
         data = await BasicRequest.init_room(roomid)
         if not data["code"]:
             data = data["data"]
-
+            print(data)
             if not data["short_id"]:
                 Log.warning("此房间无短号")
             else:
-                Log.info("短号为:"+data["short_id"])
-            Log.info("真实房间号为:"+data["room_id"])
+                Log.info("短号为:"+str(data["short_id"]))
+            Log.info("真实房间号为:"+str(data["room_id"]))
             return data["room_id"]
         elif data["code"] == 60004:
             Log.warning(data["msg"])
@@ -265,7 +265,7 @@ class Live:
             data = data["data"]
 
         if data["normal"]["status"]:
-            Log.info("普通扭蛋币: "+data["normal"]["coin"]+" 个")
+            Log.info("普通扭蛋币: "+str(data["normal"]["coin"])+" 个")
         else:
             Log.warning("普通扭蛋币暂不可用")
 
@@ -273,5 +273,5 @@ class Live:
     async def open_capsule(count):
         data = await BasicRequest.req_open_capsule(count)
         if not data["code"]:
-            for i in data["data"]["next"]:
+            for i in data["data"]["text"]:
                 Log.info(i)

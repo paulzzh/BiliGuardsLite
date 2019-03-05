@@ -59,10 +59,16 @@ class Logger(object):
         time.sleep(0.05)
         set_color(FOREGROUND_WHITE)
         
-    def info(self,message,color=FOREGROUND_GREEN):
-        set_color(color)
-        self.logger.info(message)
-        set_color(FOREGROUND_WHITE)
+    def info(self,message,multiline=False,color=FOREGROUND_GREEN):
+        if multiline == True:
+            set_color(color)
+            for each in message:
+                self.logger.info(each)
+            set_color(FOREGROUND_WHITE)
+        else:
+            set_color(color)
+            self.logger.info(message)
+            set_color(FOREGROUND_WHITE)
 
     def warning(self,message,color=FOREGROUND_YELLOW):
         set_color(color)

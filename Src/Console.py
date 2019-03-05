@@ -1,5 +1,4 @@
 import sys
-import utils
 from Statistics import Statistics
 from Live import Live
 import platform
@@ -19,7 +18,7 @@ def fetch_real_roomid(roomid):
     return real_roomid
   
               
-class Biliconsole(Cmd):
+class Console(Cmd):
     prompt = ''
 
     def __init__(self, loop):
@@ -91,7 +90,7 @@ class Biliconsole(Cmd):
     def do_10(self, line):
         self.append2list_console(Live.fetch_capsule_info)
         
-    def do_13(self, line):
+    def do_11(self, line):
         count = input('请输入要开的扭蛋数目(1或10或100)')
         self.append2list_console([[count], Live.open_capsule])
         

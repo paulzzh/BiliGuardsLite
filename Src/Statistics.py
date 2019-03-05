@@ -1,3 +1,9 @@
+import platform
+if platform.system() == "Windows":
+    from Windows_Log import Log
+else:
+    from Unix_Log import Log
+
 class Statistics:
     instance = None
 
@@ -9,11 +15,11 @@ class Statistics:
             # cls.instance.activity_time_list = []
             cls.instance.TV_id_list = []
             # cls.instance.TV_time_list = []
-            cls.instance.pushed_raffle = {}
+            cls.instance.pushed_raffles = {}
             
-            cls.instance.joined_raffle = {}
+            cls.instance.joined_raffles = {}
             cls.instance.raffle_results = {}
-            cls.instance.result = {}
+            cls.instance.results = {}
             # cls.instance.TVsleeptime = 185
             # cls.instance.activitysleeptime = 125
 
@@ -23,43 +29,41 @@ class Statistics:
     @staticmethod
     def print_statistics():
         inst = Statistics.instance
-        print("本次推送抽奖统计")
+        Log.info("本次推送抽奖统计:")
         for k,v in inst.pushed_raffles.items():
             if isinstance(v,int):
-                print(f'{v:^5} X {k}')
+                Log.info(f'{v:^5} X {k}')
             else:
-                print(f'{v:^5.2f} X {k}')
+                Log.info(f'{v:^5.2f} X {k}')
 
         print()
-        print('本次参与抽奖统计：')
-        joined_of_id = inst.joined_raffles.get()
-        for k, v in joined_of_id.items():
-            print(f'{v:^5} X {k}')
+        Log.info('本次参与抽奖统计：')
+        for k, v in inst.joined_raffles.items():
+            Log.info(f'{v:^5} X {k}')
 
         print()
-        print('本次抽奖结果统计：')
-        results = inst.results.get()
-        for k, v in results.items():
-            print(f'{v:^5} X {k}')
+        Log.info('本次抽奖结果统计：')
+        for k, v in inst.results.items():
+            Log.info(f'{v:^5} X {k}')
     
     @staticmethod
     def add2pushed_raffles(raffle_name,broadcast_type=0,num=1):
         inst = Statistics.instance
         # broadcast_type 广播类型 0 全区广播 1 分区广播 2 本房间
         if broadcast_type == 0:
-            inst.pushed_raffle[raffle_name] = inst.pushed_raffle.get(raffle_name, 0) + int(num) / inst.area_num
+            inst.pushed_raffles[raffle_name] = inst.pushed_raffles.get(raffle_name, 0) + int(num) / inst.area_num
         else:
-            inst.pushed_raffle[raffle_name] = inst.pushed_raffle.get(raffle_name, 0) + int(num)
+            inst.pushed_raffles[raffle_name] = inst.pushed_raffles.get(raffle_name, 0) + int(num)
 
     @staticmethod
     def add2joined_raffles(raffle_name,num=1):
         inst = Statistics.instance
-        inst.joined_raffle[type] = inst.joined_raffle.get(type, 0) + int(num)
+        inst.joined_raffles[type] = inst.joined_raffles.get(type, 0) + int(num)
 
     @staticmethod
     def add2results(type,num=1):
         inst = Statistics.instance
-        inst.result[type] = inst.result.get(type, 0) + int(num)
+        inst.results[type] = inst.results.get(type, 0) + int(num)
 
     @staticmethod
     def add2raffle_ids(raffle_id):

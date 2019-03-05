@@ -42,6 +42,7 @@ class TvRaffleHandler:
         data2 = await BasicRequest.tv_req_join(real_roomid,raffle_id)
         Log.info("参与了房间 %s 的小电视抽奖"%(real_roomid))
         Log.info("小电视抽奖状态: %s"%data2["msg"])
+        Statistics.add2joined_raffles("小电视类(合计)")
 
         code = data2["code"]
         tasklist = []

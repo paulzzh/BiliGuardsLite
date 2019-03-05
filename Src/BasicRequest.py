@@ -112,6 +112,7 @@ class BasicRequest:
     async def req_fetch_medal():
         url = "https://api.live.bilibili.com/i/api/medal?page=1&pageSize=50"
         response = await AsyncioCurl().request_json("GET",url,headers=config["pcheaders"])
+        return response
 
     @staticmethod
     async def req_check_taskinfo():
@@ -170,17 +171,18 @@ class BasicRequest:
 
     @staticmethod
     async def req_fetch_capsule_info():
-        url = "https://api.live.bilibili.com/api/ajaxCapsule"
+        url = "https://api.live.bilibili.com/xlive/web-ucenter/v1/capsule/get_detail"
         response = await AsyncioCurl().request_json("GET",url,headers=config["pcheaders"])
         return response
 
     @staticmethod
     async def req_open_capsule(count):
-        url = "https://api.live.bilibili.com/api/ajaxCapsuleOpen"
+        url = "https://api.live.bilibili.com/xlive/web-ucenter/v1/capsule/open_capsule"
         data = {
             "type":"normal",
             "count":count,
-            "csrf_token":config["Token"]["CSRF"]
+            "csrf_token":config["Token"]["CSRF"],
+            "csrf":config["Token"]["CSRF"]
         }
         response = await AsyncioCurl().request_json("POST",url,data=data,headers=config["pcheaders"])
         return response
