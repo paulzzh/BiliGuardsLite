@@ -1,3 +1,9 @@
+# BiliBiliHelper Python Version
+# Copy right (c) 2019 TheWanderingCoel
+# 该代码实现了控制台功能
+# 本文件对yjqiang大佬的版本进行了一些删减
+# 代码来自:https://github.com/yjqiang/bilibili-live-tools/blob/master/bili_console.py
+
 import sys
 from Statistics import Statistics
 from Live import Live
@@ -36,10 +42,10 @@ class Console(Cmd):
         print('|6 模拟电脑网页端发送弹幕     |')
         print('|7 直播间的长短号码的转化     |')
         print('|8 手动送礼物到指定直播间     |')
-        print('|9 房间号码查看主播         |')
+        print('|9 房间号码查看主播          |')
         print('|10 当前拥有的扭蛋币         |')
         print('|11 开扭蛋币(只能1，10，100) |')
-        print('￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣')
+        print('￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣')
         
     def default(self, line):
         self.guide_of_console()

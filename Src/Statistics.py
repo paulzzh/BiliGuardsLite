@@ -1,9 +1,3 @@
-import platform
-if platform.system() == "Windows":
-    from Windows_Log import Log
-else:
-    from Unix_Log import Log
-
 class Statistics:
     instance = None
 
@@ -11,17 +5,10 @@ class Statistics:
         if not cls.instance:
             cls.instance = super(Statistics, cls).__new__(cls)
             cls.instance.area_num = area_num
-            cls.instance.activity_id_list = []
-            # cls.instance.activity_time_list = []
-            cls.instance.TV_id_list = []
-            # cls.instance.TV_time_list = []
+
             cls.instance.pushed_raffles = {}
-            
             cls.instance.joined_raffles = {}
             cls.instance.raffle_results = {}
-            cls.instance.results = {}
-            # cls.instance.TVsleeptime = 185
-            # cls.instance.activitysleeptime = 125
 
             cls.list_raffle_id = []
         return cls.instance
@@ -31,7 +18,7 @@ class Statistics:
         inst = Statistics.instance
         print("本次推送抽奖统计:")
         for k,v in inst.pushed_raffles.items():
-            print(f'{v:^5.2f} X {k}')
+            print(f'{v:^5} X {k}')
 
         print()
         print('本次参与抽奖统计：')
@@ -40,7 +27,7 @@ class Statistics:
 
         print()
         print('本次抽奖结果统计：')
-        for k, v in inst.results.items():
+        for k, v in inst.raffle_results.items():
             print(f'{v:^5} X {k}')
     
     @staticmethod
@@ -60,7 +47,7 @@ class Statistics:
     @staticmethod
     def add2results(result,num=1):
         inst = Statistics.instance
-        inst.results[result] = inst.results.get(result, 0) + int(num)
+        inst.raffle_results[result] = inst.raffle_results.get(result, 0) + int(num)
 
     @staticmethod
     def add2raffle_ids(raffle_id):

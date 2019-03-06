@@ -1,8 +1,6 @@
 # BiliBiliHelper Python Version
 # Copy right (c) 2019 TheWanderingCoel
-# 不知道为什么,exec_fun总会报错
-# 说什么 "controller" object has no attribute "xxx"
-# 干脆直接把所有请求写在一个文件里了
+# 直接把所有请求写在一个文件里了
 
 import time
 import platform

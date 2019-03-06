@@ -1,3 +1,9 @@
+# BiliBiliHelper Python Version
+# Copy right (c) 2019 TheWanderingCoel
+# 该代码实现了弹幕监听,并调用其它Py文件进行处理
+# 代码来自:https://github.com/yjqiang/blivedm
+# 感谢yjqiang大佬和xfgryujk大佬
+
 import time
 import json
 import struct # struct模块来解决str和其他二进制数据类型的转换

@@ -117,7 +117,7 @@ class Live:
             arrow = int(user_intimacy * 30 / user_next_intimacy)
             line = 30 - arrow
             percent = user_intimacy / user_next_intimacy * 100.0
-            process_bar = "# [" + ">" * arrow + "-" * line + "]" + "%.2f" % percent + "%"
+            process_bar = "[" + ">" * arrow + "-" * line + "]" + "%.2f" % percent + "%"
             print(process_bar)
             print("等级榜:"+str(user_level_rank))
 
