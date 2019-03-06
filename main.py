@@ -60,7 +60,7 @@ def daily_job():
     while (1):
         Auth.work()
         Capsule.work()
-        #GiftSend.work()
+        GiftSend.work()
         Group.work()
         Heart.work()
         SilverBox.work()
@@ -71,7 +71,8 @@ def daily_job():
 daily_job_thread = threading.Thread(target=daily_job)
 daily_job_thread.start()
 
-loop.run_until_complete(asyncio.wait(danmu_tasks+other_tasks))
+if config["Function"]["RAFFLE_HANDLER"] != "False":
+    loop.run_until_complete(asyncio.wait(danmu_tasks+other_tasks))
 
 console_thread.join()
 daily_job_thread.join()

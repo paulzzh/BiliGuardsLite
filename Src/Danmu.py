@@ -16,6 +16,7 @@ if platform.system() == "Windows":
 else:
     from Unix_Log import Log
 from Live import Live
+from config import config
 from Statistics import Statistics
 from Tv_Raffle_Handler import TvRaffleHandler
 from Guard_Raffle_Handler import GuardRaffleHandler
@@ -231,7 +232,8 @@ class DanmuRaffleHandler(BaseDanmu):
                     raffle_name = str_gift
                 broadcast = msg_common.split("广播")[0]
                 Log.critical("%s 号弹幕监控检测到 %s 的 %s"%(self._area_id,real_roomid,raffle_name))
-                raffle_handler.RaffleHandler.push2queue((real_roomid,raffle_name,),TvRaffleHandler.check)
+                if config["Raffle_Handler"]["TV"] != "False":
+                    raffle_handler.RaffleHandler.push2queue((real_roomid,raffle_name,),TvRaffleHandler.check)
                 # 如果不是全区就设置为1(分区)
                 broadcast_type = 0 if broadcast == '全区' else 1
                 Statistics.add2pushed_raffles(raffle_name,broadcast_type,raffle_num)
@@ -239,7 +241,8 @@ class DanmuRaffleHandler(BaseDanmu):
             elif msg_type == 3:
                 raffle_name = msg_common.split("开通了")[-1][:2]
                 Log.critical("%s 号弹幕监控检测到 %s 的 %s"%(self._area_id,real_roomid,raffle_name))
-                raffle_handler.RaffleHandler.push2queue((real_roomid,),GuardRaffleHandler.check)
+                if config["Raffle_Handler"]["GUARD"] != "False":
+                    raffle_handler.RaffleHandler.push2queue((real_roomid,),GuardRaffleHandler.check)
                 # 如果不是总督就设置为2(本房间)
                 broadcast_type = 0 if raffle_name == "总督" else 2
                 Statistics.add2pushed_raffles(raffle_name,broadcast_type)
@@ -247,8 +250,9 @@ class DanmuRaffleHandler(BaseDanmu):
             elif msg_type == 6:
                 raffle_name = "二十倍节奏风暴"
                 Log.critical("%s 号弹幕监控检测到 %s 的 %s"%(self._area_id,real_roomid,raffle_name))
-                raffle_handler.RaffleHandler.push2queue((real_roomid,),StormRaffleHandler.check)
-                Statistics.add2pushed_raffles((real_roomid,),StormRaffleHandler.check)
+                if config["Raffle_Handler"]["STORM"] != "False":
+                    raffle_handler.RaffleHandler.push2queue((real_roomid,),StormRaffleHandler.check)
+                Statistics.add2pushed_raffles(raffle_name)
         
         # 论缩进的重要性,缩进太多永远都是: 
         # 网络波动, X 号弹幕姬延迟3s后重启
