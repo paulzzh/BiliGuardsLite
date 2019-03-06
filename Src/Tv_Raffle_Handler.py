@@ -66,5 +66,5 @@ class TvRaffleHandler:
                 return
             elif data["data"]["gift_id"] != "-1":
                 data = data["data"]
-                Log.critical("房间 %s %s抽奖结果: %s X %s"%(real_roomid,raffle_name,data["gift_name"],data["gift_num"]))
+                Log.critical("房间 %s %s 抽奖结果: %s X %s"%(real_roomid,raffle_name,data["gift_name"],data["gift_num"]))
                 Statistics.add2results(data["gift_name"],int(data["gift_num"]))
