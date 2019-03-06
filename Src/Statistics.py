@@ -55,12 +55,12 @@ class Statistics:
     @staticmethod
     def add2joined_raffles(raffle_name,num=1):
         inst = Statistics.instance
-        inst.joined_raffles[type] = inst.joined_raffles.get(type, 0) + int(num)
+        inst.joined_raffles[raffle_name] = inst.joined_raffles.get(raffle_name, 0) + int(num)
 
     @staticmethod
-    def add2results(type,num=1):
+    def add2results(result,num=1):
         inst = Statistics.instance
-        inst.results[type] = inst.results.get(type, 0) + int(num)
+        inst.results[result] = inst.results.get(result, 0) + int(num)
 
     @staticmethod
     def add2raffle_ids(raffle_id):
