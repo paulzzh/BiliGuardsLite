@@ -108,7 +108,7 @@ class BaseDanmu():
     async def read_datas(self):
         while True:
             datas = await self.read_bytes()
-			# 本函数对bytes进行相关操作，不特别声明，均为bytes
+	    # 本函数对bytes进行相关操作，不特别声明，均为bytes
             if datas is None:
                 return
             data_l = 0
