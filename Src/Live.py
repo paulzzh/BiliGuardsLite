@@ -149,7 +149,7 @@ class Live:
                     print(f" {gift_name:^3} X {gift_num:^4} (在 {left_days:^6} 天后过期)")
                 
             gift_list.append([gift_id,gift_num,bag_id,left_time])
-            return gift_list
+        return gift_list
     
     @staticmethod
     async def check_taskinfo():
