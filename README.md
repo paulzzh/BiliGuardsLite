@@ -7,7 +7,7 @@
 </p>
 
 
-# BilibiliHelper
+# BiliBiliHelper
 B 站直播实用脚本Python版本
 
 ## 功能组件

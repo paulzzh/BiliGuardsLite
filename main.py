@@ -13,9 +13,11 @@ else:
     from Unix_Log import Log
 from Auth import Auth
 from Capsule import Capsule
+from Coin2Silver import Coin2Silver
 from GiftSend import GiftSend
 from Group import Group
 from Heart import Heart
+from Silver2Coin import Silver2Coin
 from SilverBox import SilverBox
 from Statistics import Statistics
 from Task import Task
@@ -26,9 +28,11 @@ from config import config
 # 初始化所有class
 Auth = Auth()
 Capsule = Capsule()
+Coin2Silver = Coin2Silver()
 GiftSend = GiftSend()
 Group = Group()
 Heart = Heart()
+Silver2Coin = Silver2Coin()
 SilverBox = SilverBox()
 Task = Task()
 rafflehandler = RaffleHandler()
@@ -60,9 +64,11 @@ def daily_job():
     while (1):
         Auth.work()
         Capsule.work()
+        Coin2Silver.work()
         GiftSend.work()
         Group.work()
         Heart.work()
+        Silver2Coin.work()
         SilverBox.work()
         Task.work()
         # 休息0.5s,减少CPU占用
@@ -71,8 +77,8 @@ def daily_job():
 daily_job_thread = threading.Thread(target=daily_job)
 daily_job_thread.start()
 
-#if config["Function"]["RAFFLE_HANDLER"] != "False":
-loop.run_until_complete(asyncio.wait(danmu_tasks+other_tasks))
+if config["Function"]["RAFFLE_HANDLER"] != "False":
+    loop.run_until_complete(asyncio.wait(danmu_tasks+other_tasks))
 
 console_thread.join()
 daily_job_thread.join()
