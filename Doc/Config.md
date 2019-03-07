@@ -46,8 +46,8 @@
 ``SENTENCE`` 名句,强烈推荐开启,**True**开启**False**关闭  
 
 ## [pcheaders] pc请求头 (该区域无需填写)
-``Accept`` 接受类型
-``User-Agent`` 用户代理
-``Accept-Language`` 接受语言
-``accept-encoding`` 接受编码
-``cookie`` cookie
+``Accept`` 接受类型  
+``User-Agent`` 用户代理  
+``Accept-Language`` 接受语言  
+``accept-encoding`` 接受编码  
+``cookie`` cookie  
