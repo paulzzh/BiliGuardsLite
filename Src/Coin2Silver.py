@@ -14,7 +14,7 @@ from Curl import Curl
 from config import config
 
 class Coin2Silver():
-    def __init(self):
+    def __init__(self):
         self.lock = int(time.time())
 
     def work(self):
