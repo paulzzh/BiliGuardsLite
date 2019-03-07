@@ -87,7 +87,7 @@ class Live:
     async def fetch_user_info():
         data = await BasicRequest.req_fetch_user_info()
         print("查询用户信息...")
-        if not 0:
+        if not data["code"]:
             data = data["data"]
             userInfo = data["userInfo"]
             userCoinIfo = data["userCoinIfo"]
