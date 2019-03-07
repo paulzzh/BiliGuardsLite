@@ -5,7 +5,7 @@ import asyncio
 import Console
 import threading
 import Danmu_Monitor
-from raffle_handler import RaffleHandler
+from Raffle_Handler import RaffleHandler
 import platform
 if platform.system() == "Windows":
     from Windows_Log import Log
@@ -71,8 +71,8 @@ def daily_job():
 daily_job_thread = threading.Thread(target=daily_job)
 daily_job_thread.start()
 
-if config["Function"]["RAFFLE_HANDLER"] != "False":
-    loop.run_until_complete(asyncio.wait(danmu_tasks+other_tasks))
+#if config["Function"]["RAFFLE_HANDLER"] != "False":
+loop.run_until_complete(asyncio.wait(danmu_tasks+other_tasks))
 
 console_thread.join()
 daily_job_thread.join()

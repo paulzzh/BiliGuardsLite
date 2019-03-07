@@ -62,6 +62,8 @@ class Logger(object):
     def info(self,message,color=FOREGROUND_GREEN):
         set_color(color)
         self.logger.info(message)
+        # 不sleep会有info提示变成白色,不知道什么情况
+        time.sleep(0.1)
         set_color(FOREGROUND_WHITE)
 
     def warning(self,message,color=FOREGROUND_YELLOW):

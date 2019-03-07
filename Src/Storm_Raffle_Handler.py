@@ -9,7 +9,7 @@ from Timer import Timer
 from Statistics import Statistics
 from AsyncioCurl import AsyncioCurl
 from BasicRequest import BasicRequest
-from raffle_handler import RaffleHandler
+from Raffle_Handler import RaffleHandler
 
 class StormRaffleHandler:
 
