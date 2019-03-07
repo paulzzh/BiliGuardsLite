@@ -61,7 +61,7 @@ $ cd BiliBiliHelper
 ```
 $ pip install -r requirements.txt
 ```
- 3. 按照说明修改配置文件 `BiliBiliHelper.conf`，只需填写帐号密码即可
+ 3. 按照[说明](https://github.com/TheWanderingCoel/BiliBiliHelper/blob/master/Doc/Config.md)修改配置文件 `BiliBiliHelper.conf`，只需填写帐号密码即可
  4. 运行测试
 ```
 $ python main.py
