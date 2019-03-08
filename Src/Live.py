@@ -9,11 +9,15 @@ else:
     from Unix_Log import Log
 from config import config
 from operator import itemgetter
-from CPrint import cprint
 from AsyncioCurl import AsyncioCurl
 
 class Live:
 
+    @staticmethod
+    def cpirnt(message):
+        for each in message:
+            print(each)
+    
     @staticmethod
     async def enter_room(room_id):
         if not room_id:
@@ -196,7 +200,7 @@ class Live:
                     if show:
                         printlist.append("{} {} {:^14} {:^14} {} {:^6} {:^9}".format(adjust_for_chinese(i["medal_name"] + "|" + str(i["level"])), adjust_for_chinese(i["anchorInfo"]["uname"]), str(i["intimacy"]) + "/" + str(i["next_intimacy"]), str(i["todayFeed"]) + "/" + str(i["dayLimit"]), adjust_for_chinese(str(i["rank"])), dic_worn[str(i["status"])], i["roomid"]))
         if show:
-            cprint(printlist)
+            Live.cpirnt(printlist)
         if list_wanted_mendal is not None:
             list_return_medal = []
             for roomid in list_wanted_mendal:
