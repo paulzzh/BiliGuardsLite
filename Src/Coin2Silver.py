@@ -37,5 +37,6 @@ class Coin2Silver():
         data = json.loads(data)
         if data["code"] != 0:
             Log.warning(data["message"])
+            return
 
         Log.info(data["message"]+", %s 枚硬币兑换了 %s 个银瓜子"%(num,data["data"]["silver"]))
