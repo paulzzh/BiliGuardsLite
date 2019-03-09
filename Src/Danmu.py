@@ -231,7 +231,7 @@ class DanmuRaffleHandler(BaseDanmu):
                     raffle_num = 1
                     raffle_name = str_gift
                 broadcast = msg_common.split("广播")[0]
-                Log.critical("%s 号弹幕监控检测到 %s 的 %s"%(self._area_id,real_roomid,raffle_name))
+                Log.critical("%s 号弹幕监控检测到 %s 的 %s 个 %s"%(self._area_id,real_roomid,raffle_num,raffle_name))
                 if config["Raffle_Handler"]["TV"] != "False":
                     Raffle_Handler.RaffleHandler.push2queue((real_roomid,raffle_name,),TvRaffleHandler.check)
                 # 如果不是全区就设置为1(分区)
