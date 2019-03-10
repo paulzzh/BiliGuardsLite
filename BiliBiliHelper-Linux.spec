@@ -8,7 +8,7 @@ block_cipher = None
 
 # 编译前请将pathex更改为你储存的项目路径
 a = Analysis(['main.py'],
-             pathex=['C:\\Users\\TheWanderingCoel\\Desktop\\BiliBiliHelper'],
+             pathex=['/root/BiliBiliHelper'],
              binaries=[],
              datas=[],
              hiddenimports=[],
