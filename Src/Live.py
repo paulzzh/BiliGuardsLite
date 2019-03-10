@@ -17,18 +17,6 @@ class Live:
     def cpirnt(message):
         for each in message:
             print(each)
-    
-    @staticmethod
-    async def enter_room(room_id):
-        if not room_id:
-            return
-        data = {
-            "room_id":room_id,
-            "csrf_token": config["Token"]["CSRF"]
-        }
-        url = "https://api.live.bilibili.com/room/v1/Room/room_entry_action"
-        response = await AsyncioCurl().request_json("POST",url,data=data,headers=config["pcheaders"])
-        return response
 
     async def is_normal_room(roomid):
         if not roomid:

@@ -34,7 +34,7 @@ class StormRaffleHandler:
     
     @staticmethod
     async def join(room_id,raffle_id):
-        await Live.enter_room(room_id)
+        await BasicRequest.enter_room(room_id)
         data = await BasicRequest.storm_req_join(raffle_id)
         Statistics.add2joined_raffles("节奏风暴(合计)")
         if not data["code"]:

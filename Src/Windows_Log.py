@@ -69,16 +69,22 @@ class Logger(object):
     def warning(self,message,color=FOREGROUND_YELLOW):
         set_color(color)
         self.logger.warning(message)
+        # 不sleep会有info提示变成白色,不知道什么情况
+        time.sleep(0.1)
         set_color(FOREGROUND_WHITE)
     
     def error(self,message,color=FOREGROUND_RED):
         set_color(color)
         self.logger.error(message)
+        # 不sleep会有info提示变成白色,不知道什么情况
+        time.sleep(0.1)
         set_color(FOREGROUND_WHITE)
     
     def critical(self,message,color=FOREGROUND_PURPLE):
         set_color(color)
         self.logger.critical(message)
+        # 不sleep会有info提示变成白色,不知道什么情况
+        time.sleep(0.1)
         set_color(FOREGROUND_WHITE)
 
 Log = Logger('./Log/BiliBiliHelper.log',level=config["Log"]["LOG_LEVEL"])

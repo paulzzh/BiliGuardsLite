@@ -38,7 +38,7 @@ class TvRaffleHandler:
 
     @staticmethod
     async def join(real_roomid,raffle_id,raffle_type,raffle_name):
-        await Live.enter_room(real_roomid)
+        await BasicRequest.enter_room(real_roomid)
         data2 = await BasicRequest.tv_req_join(real_roomid,raffle_id)
         Log.info("参与了房间 %s 的 %s 抽奖"%(real_roomid,raffle_name))
         Log.info("%s 抽奖状态: %s"%(raffle_name,data2["msg"]))

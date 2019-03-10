@@ -33,7 +33,10 @@ class Silver2Coin():
         data = json.loads(data)
         
         if data["code"] == 403:
-            Log.warning(data["message"]+"硬币")
+            if "每天" in data["message"]:
+                Log.warning(data["message"]+"硬币")
+            else:
+                 Log.warning(data["message"])
             return
         
         Log.info(data["message"]+",兑换了一枚硬币")
