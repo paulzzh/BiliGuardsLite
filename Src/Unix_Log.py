@@ -4,6 +4,7 @@
 # 无奈ctypes的那个方法无法在Windows以外系统实现
 # 只能写了一个在Unix下实现的日志的模块
 
+import os
 import sys
 import time
 from config import config
@@ -65,4 +66,4 @@ class Loggger():
         str_time = time.strftime("[%Y-%m-%d %H:%M:%S] ", time.localtime())
         return str_time
 
-Log = Loggger(".\Log\BiliBiliHelper.log")
+Log = Loggger(os.getcwd()+"/Log/BiliBiliHelper.log")
