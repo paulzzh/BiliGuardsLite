@@ -22,7 +22,7 @@ class Loggger():
         self.current_level = self.level[config["Log"]["LOG_LEVEL"]]
 
     def debug(self,data,level=0):
-        if self.current_level < level:
+        if self.current_level > level:
             return
         data = f"{self.timestamp()} - {__file__}[Line:{sys._getframe().f_lineno}] - DEBUG: {data}"
         print("\033[34;1m"+data+"\033[0m")
@@ -30,7 +30,7 @@ class Loggger():
             f.write(data+"\n")
 
     def info(self,data,level=1):
-        if self.current_level < level:
+        if self.current_level > level:
             return
         data = f"{self.timestamp()} - {__file__}[Line:{sys._getframe().f_lineno}] - INFO: {data}"
         print("\033[32;1m"+data+"\033[0m")
@@ -38,7 +38,7 @@ class Loggger():
             f.write(data+"\n")
 
     def warning(self,data,level=2):
-        if self.current_level < level:
+        if self.current_level > level:
             return
         data = f"{self.timestamp()} - {__file__}[Line:{sys._getframe().f_lineno}] - WARNING: {data}"
         print("\033[33;1m"+data+"\033[0m")
@@ -46,7 +46,7 @@ class Loggger():
             f.write(data+"\n")
 
     def error(self,data,level=3):
-        if self.current_level < level:
+        if self.current_level > level:
             return
         data = f"{self.timestamp()} - {__file__}[Line:{sys._getframe().f_lineno}] - ERROR: {data}"
         print("\033[31;1m"+data+"\033[0m")
@@ -54,7 +54,7 @@ class Loggger():
             f.write(data+"\n")
 
     def critical(self,data,level=4):
-        if self.current_level < level:
+        if self.current_level > level:
             return
         data = f"{self.timestamp()} - {__file__}[Line:{sys._getframe().f_lineno}] - CRITICAL: {data}"
         print("\033[35;1m"+data+"\033[0m")
