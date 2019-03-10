@@ -65,4 +65,4 @@ class Loggger():
         str_time = time.strftime("[%Y-%m-%d %H:%M:%S] ", time.localtime())
         return str_time
 
-Log = Loggger(".\Src\BiliBiliHelper.log")
+Log = Loggger(".\Log\BiliBiliHelper.log")
