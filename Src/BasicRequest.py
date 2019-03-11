@@ -196,3 +196,73 @@ class BasicRequest:
         }
         response = await AsyncioCurl().request_json("POST",url,data=data,headers=config["pcheaders"])
         return response
+
+    @staticmethod
+    async def uid2name(uid):
+        url = "https://api.live.bilibili.com/live_user/v1/card/card_up?uid=%s"%uid
+        response = await AsyncioCurl().request_json("POST",url)
+        return response
+    
+    @staticmethod
+    async def follow_user(uid):
+        url = "https://api.bilibili.com/x/relation/modify"
+        payload = {
+            "fid": uid,
+            "act": 1,
+            "re_src": 11,
+            "jsonp": "jsonp",
+            "csrf": config["Token"]["CSRF"]
+        }
+        response = await AsyncioCurl().request_json("POST",url,data=payload,headers=config["pcheaders"])
+        return response
+
+    @staticmethod
+    async def unfollow_user(uid):
+        url = "https://api.bilibili.com/x/relation/modify"
+        data = {
+            "fid": int(uid),
+            "act": 2,
+            "re_src": 11,
+            "jsonp": "jsonp",
+            "csrf": config["Token"]["CSRF"]
+        }
+        response = await AsyncioCurl().request_json("POST",url,data=data,headers=config["pcheaders"])
+        return response
+
+    @staticmethod
+    async def check_follow(uid):
+        url = "https://api.bilibili.com/x/relation?fid=%s"%uid
+        response = await AsyncioCurl().request_json("GET",url,headers=config["pcheaders"])
+        return response
+        
+    @staticmethod
+    async def fetch_follow_groupids():
+        url = "https://api.bilibili.com/x/relation/tags"
+        response = await AsyncioCurl().request_json("GET",url,headers=config["pcheaders"])
+        return response
+    
+    @staticmethod
+    async def create_follow_group(name):
+        url = "https://api.bilibili.com/x/relation/tag/create"
+        payload = {
+            "tag": name,
+            "csrf": config["Token"]["CSRF"],
+            "jsonp": "jsonp"
+        }
+        response = await AsyncioCurl().request_json("POST", url, data=payload, headers=config["pcheaders"])
+        return response
+    
+    @staticmethod
+    async def move2follow_group(uid,group_id):
+        url = "https://api.bilibili.com/x/relation/tags/addUsers?cross_domain=true"
+        headers = {
+            **config["pcheaders"],
+            "Referer": "https://space.bilibili.com/%s/"%uid
+        }
+        payload = {
+            "fids": uid,
+            "tagids": group_id,
+            "csrf": config["Token"]["CSRF"]
+        }
+        response = await AsyncioCurl().request_json("POST",url,data=payload,headers=headers)
+        return response

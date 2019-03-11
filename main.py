@@ -39,6 +39,9 @@ rafflehandler = RaffleHandler()
 
 if config["Other"]["INFO_MESSAGE"] != "False":
     Log.info("BiliBiliHelper Python Version Beta 0.0.1")
+
+Log.info("Powered By TheWanderingCoel")
+
 if config["Other"]["SENTENCE"] != "False":
     Log.info(Sentence().get_sentence())
 
