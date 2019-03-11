@@ -23,8 +23,8 @@ class TvRaffleHandler:
         checklen = data["data"]["list"]
         list_available_raffleid = []
         for j in checklen:
-            raffle_id = j['raffleId']
-            raffle_type = j['type']
+            raffle_id = j["raffleId"]
+            raffle_type = j["type"]
             time_wanted = j["time_wait"] + int(time.time())
 
             if not Statistics.is_raffleid_duplicate(raffle_id):
