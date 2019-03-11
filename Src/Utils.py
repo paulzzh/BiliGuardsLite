@@ -11,7 +11,7 @@ from config import config
 from operator import itemgetter
 from AsyncioCurl import AsyncioCurl
 
-class Live:
+class Utils:
 
     @staticmethod
     def cpirnt(message):
@@ -40,13 +40,13 @@ class Live:
     async def get_room_by_area(area_id,room_id=None):
 
         if room_id is not None and room_id:
-            if await Live.is_ok_as_monitor(room_id,area_id):
+            if await Utils.is_ok_as_monitor(room_id,area_id):
                 Log.info("%s 号弹幕监控选择房间 %s"%(area_id,room_id))
                 return room_id
     
         if area_id == 1:
             room_id = 23058
-            if await Live.is_ok_as_monitor(room_id,area_id):
+            if await Utils.is_ok_as_monitor(room_id,area_id):
                 Log.info("%s 号弹幕监控选择房间 %s"%(area_id,room_id))
                 return room_id
             
@@ -54,7 +54,7 @@ class Live:
             data = await BasicRequest.get_room_by_area(area_id)
             data = data["data"]
             room_id = random.choice(data)["roomid"]
-            if await Live.is_ok_as_monitor(room_id,area_id):
+            if await Utils.is_ok_as_monitor(room_id,area_id):
                 Log.info("%s 号弹幕监控选择房间 %s"%(area_id,room_id))
                 return room_id
     
@@ -188,7 +188,7 @@ class Live:
                     if show:
                         printlist.append("{} {} {:^14} {:^14} {} {:^6} {:^9}".format(adjust_for_chinese(i["medal_name"] + "|" + str(i["level"])), adjust_for_chinese(i["anchorInfo"]["uname"]), str(i["intimacy"]) + "/" + str(i["next_intimacy"]), str(i["todayFeed"]) + "/" + str(i["dayLimit"]), adjust_for_chinese(str(i["rank"])), dic_worn[str(i["status"])], i["roomid"]))
         if show:
-            Live.cpirnt(printlist)
+            Utils.cpirnt(printlist)
         if list_wanted_mendal is not None:
             list_return_medal = []
             for roomid in list_wanted_mendal:
@@ -222,7 +222,7 @@ class Live:
     @staticmethod
     async def send_gift(roomid,num_wanted,bagid,giftid=None):
         if giftid is None:
-            giftid,num_owned = await Live.fetch_bag_list(False,bagid)
+            giftid,num_owned = await Utils.fetch_bag_list(False,bagid)
             num_wanted = min(num_owned,num_wanted)
         if not num_wanted:
             return

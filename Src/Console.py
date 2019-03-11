@@ -6,7 +6,7 @@
 
 import sys
 from Statistics import Statistics
-from Live import Live
+from Utils import Utils
 import platform
 if platform.system() == "Windows":
     from Windows_Log import Log
@@ -18,7 +18,7 @@ from config import config
 
 def fetch_real_roomid(roomid):
     if roomid:
-        real_roomid = [[roomid], Live.check_room]
+        real_roomid = [[roomid], Utils.check_room]
     else:
         real_roomid = config["Live"]["ROOM_ID"]
     return real_roomid
@@ -57,48 +57,48 @@ class Console(Cmd):
         Statistics.print_statistics()
         
     def do_2(self, line):
-        self.append2list_console(Live.fetch_bag_list)
+        self.append2list_console(Utils.fetch_bag_list)
         
     def do_3(self, line):
-        self.append2list_console(Live.fetch_medal)
+        self.append2list_console(Utils.fetch_medal)
         
     def do_4(self, line):
-        self.append2list_console(Live.fetch_user_info)
+        self.append2list_console(Utils.fetch_user_info)
         
     def do_5(self, line):
-        self.append2list_console(Live.check_taskinfo)
+        self.append2list_console(Utils.check_taskinfo)
         
     def do_6(self, line):
         msg = input('请输入要发送的信息:')
         roomid = input('请输入要发送的房间号:')
         real_roomid = fetch_real_roomid(roomid)
-        self.append2list_console([[msg, real_roomid], Live.send_danmu])
+        self.append2list_console([[msg, real_roomid], Utils.send_danmu])
         
     def do_7(self, line):
         roomid = input('请输入要转化的房间号:')
         if not roomid:
             roomid = config["Live"]["ROOM_ID"]
-        self.append2list_console([[roomid], Live.check_room])
+        self.append2list_console([[roomid], Utils.check_room])
     
     def do_8(self, line):
-        self.append2list_console([[True], Live.fetch_bag_list])
+        self.append2list_console([[True], Utils.fetch_bag_list])
         bagid = input('请输入要发送的礼物编号:')
         giftnum = int(input('请输入要发送的礼物数目:'))
         roomid = input('请输入要发送的房间号:')
         real_roomid = fetch_real_roomid(roomid)
-        self.append2list_console([[real_roomid, giftnum, bagid], Live.send_gift])
+        self.append2list_console([[real_roomid, giftnum, bagid], Utils.send_gift])
             
     def do_9(self, line):
         roomid = input('请输入roomid:')
         real_roomid = fetch_real_roomid(roomid)
-        self.append2list_console([[real_roomid], Live.fetch_liveuser_info])
+        self.append2list_console([[real_roomid], Utils.fetch_liveuser_info])
     
     def do_10(self, line):
-        self.append2list_console(Live.fetch_capsule_info)
+        self.append2list_console(Utils.fetch_capsule_info)
         
     def do_11(self, line):
         count = input('请输入要开的扭蛋数目(1或10或100):')
-        self.append2list_console([[count], Live.open_capsule])
+        self.append2list_console([[count], Utils.open_capsule])
         
     def append2list_console(self, request):
         asyncio.run_coroutine_threadsafe(self.excute_async(request), self.loop)

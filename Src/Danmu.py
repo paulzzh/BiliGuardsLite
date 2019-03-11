@@ -15,7 +15,7 @@ if platform.system() == "Windows":
     from Windows_Log import Log
 else:
     from Unix_Log import Log
-from Live import Live
+from Utils import Utils
 from config import config
 from Statistics import Statistics
 from Tv_Raffle_Handler import TvRaffleHandler
@@ -190,7 +190,7 @@ class DanmuRaffleHandler(BaseDanmu):
         try:
             while True:
                 await asyncio.sleep(300)
-                is_ok = await asyncio.shield(Live.is_ok_as_monitor(self._room_id,self._area_id))
+                is_ok = await asyncio.shield(Utils.is_ok_as_monitor(self._room_id,self._area_id))
                 if not is_ok:
                     Log.warning("%s 不再适合作为监控房间，即将切换"%self._room_id)
                     return
@@ -270,7 +270,7 @@ class DanmuRaffleHandler(BaseDanmu):
             Log.info("正在启动 %s 号弹幕姬"%self._area_id)
             time_now = int(time.time())
             async with self.lock_for_reseting_roomid_manually:
-                self.room_id = await Live.get_room_by_area(self._area_id,self._room_id)
+                self.room_id = await Utils.get_room_by_area(self._area_id,self._room_id)
                 is_open = await self.open()
             if not is_open:
                 continue

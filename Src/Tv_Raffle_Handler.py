@@ -7,7 +7,7 @@ if platform.system() == "Windows":
     from Windows_Log import Log
 else:
     from Unix_Log import Log
-from Live import Live
+from Utils import Utils
 from Timer import Timer
 from Statistics import Statistics
 from AsyncioCurl import AsyncioCurl
@@ -17,7 +17,7 @@ class TvRaffleHandler:
 
     @staticmethod
     async def check(real_roomid,raffle_name):
-        if not await Live.is_normal_room(real_roomid):
+        if not await Utils.is_normal_room(real_roomid):
             return
         data = await BasicRequest.tv_req_check(real_roomid)
         checklen = data["data"]["list"]

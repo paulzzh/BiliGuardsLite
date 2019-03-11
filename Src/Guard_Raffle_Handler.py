@@ -6,7 +6,7 @@ if platform.system() == "Windows":
     from Windows_Log import Log
 else:
     from Unix_Log import Log
-from Live import Live
+from Utils import Utils
 from Statistics import Statistics
 from AsyncioCurl import AsyncioCurl
 from BasicRequest import BasicRequest
@@ -17,7 +17,7 @@ class GuardRaffleHandler:
     
     @staticmethod
     async def check(real_roomid,raffle_id=None):
-        if not await Live.is_normal_room(real_roomid):
+        if not await Utils.is_normal_room(real_roomid):
             return
         if raffle_id is not None:
             data = {"data":[{"id":raffle_id,"time": 65}]}

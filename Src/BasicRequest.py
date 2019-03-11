@@ -75,7 +75,7 @@ class BasicRequest:
         response = await AsyncioCurl().request_json("POST",url,headers=config["pcheaders"])
         return response
 
-# Live.py 请求
+# Utils.py 请求
     @staticmethod
     async def init_room(roomid):
         url = "https://api.live.bilibili.com/room/v1/Room/room_init?id=%s"%roomid

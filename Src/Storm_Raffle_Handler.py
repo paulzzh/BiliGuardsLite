@@ -4,7 +4,7 @@ if platform.system() == "Windows":
     from Windows_Log import Log
 else:
     from Unix_Log import Log
-from Live import Live
+from Utils import Utils
 from Timer import Timer
 from Statistics import Statistics
 from AsyncioCurl import AsyncioCurl
@@ -15,7 +15,7 @@ class StormRaffleHandler:
 
     @staticmethod
     async def check(room_id,raffle_id=None):
-        if not await Live.is_normal_room(room_id):
+        if not await Utils.is_normal_room(room_id):
             return
         if raffle_id is not None:
             data = {"data": {"id": raffle_id}}
