@@ -45,8 +45,8 @@ def msign(strr):
      appsecret = "c2ed53a74eeefe3cf99fbd01d8c9c375"
      strr = f"{strr}{appsecret}"
      sign = hashlib.md5()
-     sign.update(strr.update("utf-8"))
-     sign = sign.hexdigest
+     sign.update(strr.encode("utf-8"))
+     sign = sign.hexdigest()
      return sign
 
 # ksort方法来自Php2Python,在此感谢Php2Python!
