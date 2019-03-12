@@ -27,15 +27,15 @@ class StormRaffleHandler:
             raffle_id = data["id"]
             if not Statistics.is_raffleid_duplicate(raffle_id):
                 Log.info("本次获取到 二十倍节奏风暴 的抽奖id为 %s"%raffle_id)
-                print(1)
+                Log.error("1")
                 list_available_raffleid.append((raffle_id,0))
-                print(2)
+                Log.error("2")
                 Statistics.add2raffle_ids(raffle_id)
-                print(3)
+                Log.error("3")
             for raffle_id,time_wanted in list_available_raffleid:
-                print(4)
+                Log.error("4")
                 Timer.add2list_jobs(StormRaffleHandler.join,time_wanted,(room_id,raffle_id))
-    
+                Log.error("5")
     @staticmethod
     async def join(room_id,raffle_id):
         await BasicRequest.enter_room(room_id)
