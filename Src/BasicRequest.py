@@ -68,11 +68,17 @@ class BasicRequest:
     
     @staticmethod
     async def storm_req_join(raffle_id):
+        Log.error("S1")
         default = get_default()
+        Log.error("S2")
         temp_params = "access_key=%s&actionKey=%s&appKey=%s&build=%s&device=%s&id=%s&mobi_app=%s&platform=%s&ts=%s"%(default["access_key"],default["actionKey"],default["appkey"],default["build"],default["device"],raffle_id,default["mobi_app"],default["platform"],int(time.time()))
+        Log.error("S3")
         sign = msign(temp_params)
+        Log.error("S4")
         url = "https://api.live.bilibili.com/lottery/v1/Storm/join?%s&sign=%s"%(temp_params,sign)
+        Log.error("S5")
         response = await AsyncioCurl().request_json("POST",url,headers=config["pcheaders"])
+        Log.error("S6")
         return response
 
 # Utils.py 请求
