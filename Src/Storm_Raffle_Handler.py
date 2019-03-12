@@ -54,6 +54,6 @@ class StormRaffleHandler:
             Log.error("12")
             gift_num = data["gift_num"]
             Log.error("13")
-            Log.critical("房间 %s 节奏风暴抽奖结果: %s X %s")
+            Log.critical("房间 %s 节奏风暴抽奖结果: %s X %s"%(room_id,gift_name,gift_num))
             Log.error("14")
             Statistics.add2results(gift_name,int(gift_num))
