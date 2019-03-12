@@ -36,6 +36,7 @@ class StormRaffleHandler:
                 Log.error("4")
                 Timer.add2list_jobs(StormRaffleHandler.join,time_wanted,(room_id,raffle_id))
                 Log.error("5")
+
     @staticmethod
     async def join(room_id,raffle_id):
         await BasicRequest.enter_room(room_id)
