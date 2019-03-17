@@ -2,7 +2,6 @@
 # Copy right (c) 2019 TheWanderingCoel
 # 该代码实现了自动领取银瓜子宝箱的功能
 
-import json
 import time
 import random
 import platform
@@ -32,9 +31,9 @@ class SilverBox():
             self.openTask()
         
     def openTask(self):
+        url = "https://api.live.bilibili.com/mobile/freeSilverAward"
         payload = {}
-        data = Curl().get("https://api.live.bilibili.com/mobile/freeSilverAward",payload)
-        data = json.loads(data)
+        data = Curl().request_json("GET",url,headers=config["pcheaders"],params=payload)
     
         if data["code"] != 0:
             Log.warning("开启宝箱失败")
@@ -47,9 +46,9 @@ class SilverBox():
     
     
     def getTask(self):
+        url = "https://api.live.bilibili.com/lottery/v1/SilverBox/getCurrentTask"
         payload = {}
-        data = Curl().get("https://api.live.bilibili.com/lottery/v1/SilverBox/getCurrentTask",payload)
-        data = json.loads(data)
+        data = Curl().request_json("GET",url,headers=config["pcheaders"],params=payload)
         
         if data["code"] == -10017:
             Log.info(data["message"])

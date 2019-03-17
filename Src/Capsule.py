@@ -5,7 +5,6 @@
 # PHP代码地址:https://github.com/metowolf/BilibiliHelper/blob/0.9x/src/plugins/Capsule.php
 
 import time
-import json
 import platform
 if platform.system() == "Windows":
     from Windows_Log import Log
@@ -32,9 +31,9 @@ class Capsule():
         self.lock = int(time.time()) + 86400
     
     def info(self):
+        url = "https://api.live.bilibili.com/xlive/web-ucenter/v1/capsule/get_detail"
         payload = {}
-        data = Curl().get("https://api.live.bilibili.com/xlive/web-ucenter/v1/capsule/get_detail",payload)
-        data = json.loads(data)
+        data = Curl().request_json("GET",url,headers=config["pcheaders"],params=payload)
 
         if data["code"] != 0:
             Log.warning("扭蛋币余额查询异常")
@@ -45,6 +44,7 @@ class Capsule():
         return data["data"]["normal"]["coin"]
 
     def open(self,num):
+        url = "https://api.live.bilibili.com/xlive/web-ucenter/v1/capsule/open_capsule"
         csrf = config["Token"]["CSRF"]
 
         payload = {
@@ -53,8 +53,7 @@ class Capsule():
             "csrf_token":csrf,
             "csrf":csrf
         }
-        data = Curl().nspost("https://api.live.bilibili.com/xlive/web-ucenter/v1/capsule/open_capsule",payload)
-        data = json.loads(data)
+        data = Curl().request_json("POST",url,headers=config["pcheaders"],data=payload,sign=False)
 
         if data["code"] != 0:
             Log.warning("扭蛋失败,请稍后重试")

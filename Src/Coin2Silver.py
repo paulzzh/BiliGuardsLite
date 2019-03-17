@@ -3,7 +3,6 @@
 # 该代码实现了硬币换银瓜子功能
 
 import time
-import json
 import platform
 if platform.system() == "Windows":
     from Windows_Log import Log
@@ -28,13 +27,15 @@ class Coin2Silver():
         self.lock = std235959() + 600
     
     def exchange(self,num):
+        url = "https://api.live.bilibili.com/pay/v1/Exchange/coin2silver"
+        
         payload = {
             "num":num,
             "csrf_token":config["Token"]["CSRF"]
         }
 
-        data = Curl().nspost("https://api.live.bilibili.com/pay/v1/Exchange/coin2silver",payload)
-        data = json.loads(data)
+        data = Curl().request_json("POST",url,headers=config["pcheaders"],data=payload,sign=False)
+
         if data["code"] != 0:
             Log.warning(data["message"])
             return

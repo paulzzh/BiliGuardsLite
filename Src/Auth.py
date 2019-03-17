@@ -56,11 +56,11 @@ class Auth():
                 self.loginPassword()
 
     def checkCookie(self):
+        url = "https://api.live.bilibili.com/User/getUserInfo"
         payload ={
             "ts":int(time.time())
         }
-        data = Curl().get("https://api.live.bilibili.com/User/getUserInfo",payload)
-        data = json.loads(data)
+        data = Curl().request_json("GET",url,headers=config["pcheaders"],params=payload)
 
         if data["code"] != "REPONSE_OK":
             Log.error("检测到 Cookie 过期")
@@ -68,11 +68,11 @@ class Auth():
             self.loginPassword()
 
     def checkToken(self):
+        url = "https://passport.bilibili.com/api/v2/oauth2/info"
         payload = {
             "access_token":config["Token"]["ACCESS_TOKEN"]
         }
-        data = Curl().get("https://passport.bilibili.com/api/v2/oauth2/info",payload)
-        data = json.loads(data)
+        data = Curl().request_json("GET",url,headers=config["pcheaders"],params=payload)
 
         if data["code"] == 0:
             Log.info("令牌验证成功，有效期:"+time.strftime("%Y-%m-%d %H:%M:%S",time.localtime(data["ts"]+data["data"]["expires_in"])))
@@ -83,12 +83,12 @@ class Auth():
         return data["data"]["expires_in"] > 14400
 
     def refresh(self):
+        url = "https://passport.bilibili.com/api/oauth2/refreshToken"
         payload = {
             "access_token":config["Token"]["ACCESS_TOKEN"],
             "refresh_token":config["Token"]["REFRESH_TOKEN"],
             }
-        data = Curl().post("https://passport.bilibili.com/api/oauth2/refreshToken",payload)
-        data = json.loads(data)
+        data = Curl().request_json("POST",url,headers=config["pcheaders"],data=payload)
 
         if data["code"] == 0:
             Log.info("续签令牌成功")
@@ -99,9 +99,10 @@ class Auth():
         return True
 
     def getPublicKey(self):
+        url = "https://passport.bilibili.com/api/oauth2/getKey"
         payload = {}
-        data = Curl().post("https://passport.bilibili.com/api/oauth2/getKey",payload)
-        data = json.loads(data)
+        data = Curl().request_json("POST",url,headers=config["pcheaders"],data=payload)
+
         if data["code"] == 0:
             Log.info("公钥获取成功")
         else:
@@ -109,6 +110,7 @@ class Auth():
         return data
 
     def getToken(self,username,password):
+        url = "https://passport.bilibili.com/api/v3/oauth2/login"
         payload = {
             "seccode":"",
             "validate":"",
@@ -121,8 +123,7 @@ class Auth():
             "cookies":config["Token"]["COOKIE"]
         }
 
-        data = Curl().post("https://passport.bilibili.com/api/v3/oauth2/login",payload)
-        data = json.loads(data)
+        data = Curl().request_json("POST",url,headers=config["pcheaders"],data=payload)
 
         if data["code"] == 0:
             Log.info("账号登陆成功")

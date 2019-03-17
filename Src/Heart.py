@@ -4,7 +4,6 @@
 # 代码根据metowolf大佬的PHP版本进行改写
 # PHP代码地址:https://github.com/metowolf/BilibiliHelper/blob/0.9x/src/plugins/Heart.php
 
-import json
 import time
 import platform
 if platform.system() == "Windows":
@@ -31,24 +30,24 @@ class Heart():
         self.lock = int(time.time()) + 300
     
     def web(self,roomId):
+        url = "https://api.live.bilibili.com/User/userOnlineHeart"
         payload = {
             "room_id":roomId
         }
-        data = Curl().post("https://api.live.bilibili.com/User/userOnlineHeart",payload)
-        data = json.loads(data)
+        data = Curl().request_json("POST",url,headers=config["pcheaders"],data=payload)
 
         if data["code"] != 0:
-            Log.warning("直播间 %s 心跳异常 (web)"%roomId)
+            Log.warning("直播间 %s 心跳异常 (WEB)"%roomId)
         else:
-            Log.info("向直播间 %s 发送心跳包 (web)"%roomId)
+            Log.info("向直播间 %s 发送心跳包 (WEB)"%roomId)
 
         
     def mobile(self,roomId):
+        url = "https://api.live.bilibili.com/mobile/userOnlineHeart"
         payload = {
             "room_id":roomId
         }
-        data = Curl().post("https://api.live.bilibili.com/mobile/userOnlineHeart",payload)
-        data = json.loads(data)
+        data = Curl().request_json("POST",url,headers=config["pcheaders"],data=payload)
 
         if data["code"] != 0:
             Log.warning("直播间 %s 心跳异常 (APP)"%roomId)

@@ -3,7 +3,6 @@
 # 该代码实现了银瓜子对换硬币的功能
 
 import time
-import json
 import platform
 if platform.system() == "Windows":
     from Windows_Log import Log
@@ -28,9 +27,9 @@ class Silver2Coin():
         self.lock = std235959() + 600
     
     def exchange(self):
+        url = "https://api.live.bilibili.com/pay/v1/Exchange/silver2coin"
         payload = {}
-        data = Curl().get("https://api.live.bilibili.com/pay/v1/Exchange/silver2coin",payload)
-        data = json.loads(data)
+        data = Curl().request_json("GET",url,headers=config["pcheaders"],params=payload)
         
         if data["code"] == 403:
             if "每天" in data["message"]:

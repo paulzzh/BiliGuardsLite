@@ -4,7 +4,6 @@
 # 代码根据metowolf大佬的PHP版本进行改写
 # PHP代码地址:https://github.com/metowolf/BilibiliHelper/blob/0.9x/src/plugins/Task.php
 
-import json
 import time
 import platform
 if platform.system() == "Windows":
@@ -40,9 +39,9 @@ class Task():
             self.lock = int(time.time()) + 3600
 
     def check(self):
+        url = "https://api.live.bilibili.com/i/api/taskInfo"
         payload = {}
-        data = Curl().get("https://api.live.bilibili.com/i/api/taskInfo",payload)
-        data = json.loads(data)
+        data = Curl().request_json("GET",url,headers=config["pcheaders"],params=payload)
 
         if data["code"] != 0:
             Log.error("每日任务检查失败")
@@ -64,9 +63,9 @@ class Task():
             self.done.append("sign_info")
             return
 
+        url = "https://api.live.bilibili.com/appUser/getSignInfo"
         payload = {}
-        data = Curl().post("https://api.live.bilibili.com/appUser/getSignInfo",payload)
-        data = json.loads(data)
+        data = Curl().request_json("POST",url,headers=config["pcheaders"],data=payload)
 
         if data["code"] != 0:
             Log.error("「每日签到」失败")
@@ -94,11 +93,12 @@ class Task():
             Log.warning("「双端观看直播」未完成，请等待")
             return
         
+        url = "https://api.live.bilibili.com/activity/v1/task/receive_award"
         payload = {
             "task_id":"double_watch_task"
         }
-        data = Curl().post("https://api.live.bilibili.com/activity/v1/task/receive_award",payload)
-        data = json.loads(data)
+        data = Curl().request_json("POST",url,headers=config["pcheaders"],data=payload)
+        
         if data["code"] != 0:
             Log.error("「双端观看直播」奖励领取失败")
         else:

@@ -5,7 +5,7 @@ import hashlib
 import urllib.parse
 from config import config
 
-def sign(payload):
+def Sign(payload):
 
     # ios 6680
     appkey = "27eb53fc9058f8c3"

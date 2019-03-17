@@ -4,7 +4,6 @@
 # 代码根据metowolf大佬的PHP版本进行改写
 # PHP代码地址:https://github.com/metowolf/BilibiliHelper/blob/0.9x/src/plugins/GiftSend.php
 
-import json
 import time
 import platform
 if platform.system() == "Windows":
@@ -35,10 +34,10 @@ class GiftSend():
         if self.lock > int(time.time()):
             return
         
+        url = "https://api.live.bilibili.com/gift/v2/gift/bag_list"
         payload = {}
-        data = Curl().get("https://api.live.bilibili.com/gift/v2/gift/bag_list",payload)
-        data = json.loads(data)
-
+        data = Curl().request_json("GET",url,headers=config["pcheaders"],params=payload)
+        
         if data["code"] != 0:
             Log.warning("背包查看失败!"+data["message"])
         
@@ -54,9 +53,9 @@ class GiftSend():
     def getRoomInfo(self):
         Log.info("正在生成直播间信息...")
 
+        url = "https://account.bilibili.com/api/myinfo/v2"
         payload = {}
-        data = Curl().get("https://account.bilibili.com/api/myinfo/v2",payload)
-        data = json.loads(data)
+        data = Curl().request_json("GET",url,headers=config["pcheaders"],params=payload)
 
         if "code" in data and data["code"] != 0:
             Log.warning("获取账号信息失败!"+data["message"])
@@ -66,11 +65,12 @@ class GiftSend():
         
         self.uid = data["mid"]
 
+        url = "https://api.live.bilibili.com/room/v1/Room/get_info"
         payload = {
             "id":config["Live"]["ROOM_ID"]
         }
-        data = Curl().get("https://api.live.bilibili.com/room/v1/Room/get_info",payload)
-        data = json.loads(data)
+
+        data = Curl().request_json("GET",url,headers=config["pcheaders"],params=payload)
 
         if data["code"] != 0:
             Log.warning("获取主播房间号失败!"+data["message"])
@@ -84,6 +84,7 @@ class GiftSend():
         self.roomid = data["data"]["room_id"]
 
     def send(self,value):
+        url = "https://api.live.bilibili.com/gift/v2/live/bag_send"
         payload = {
             "coin_type":"silver",
             "gift_id":value["gift_id"],
@@ -95,9 +96,8 @@ class GiftSend():
             "data_behavior_id":"",
             "bag_id":value["bag_id"]
         }
-        data = Curl().post("https://api.live.bilibili.com/gift/v2/live/bag_send",payload)
-        data = json.loads(data)
-
+        data = Curl().request_json("POST",url,headers=config["pcheaders"],data=payload)
+        
         if data["code"] != 0:
             Log.warning("送礼失败!"+data["message"])
         else:

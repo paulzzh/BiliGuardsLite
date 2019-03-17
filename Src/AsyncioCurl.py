@@ -5,7 +5,6 @@ if platform.system() == "Windows":
     from Windows_Log import Log
 else:
     from Unix_Log import Log
-from Base import sign
 from config import config
 
 sem = asyncio.Semaphore(3)

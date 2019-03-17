@@ -37,9 +37,9 @@ class Group():
             self.lock = int(time.time()) + 3600
 
     def getList(self):
+        url = "https://api.vc.bilibili.com/link_group/v1/member/my_groups"
         payload = {}
-        data = Curl().get("https://api.vc.bilibili.com/link_group/v1/member/my_groups",payload)
-        data = json.loads(data)
+        data = Curl().request_json("GET",url,headers=config["pcheaders"],params=payload)
 
         if data["code"] != 0:
             Log.warning("查询应援团名单异常")
@@ -52,12 +52,12 @@ class Group():
         return data["data"]["list"]
 
     def signIn(self,value):
+        url = "https://api.vc.bilibili.com/link_setting/v1/link_setting/sign_in"
         payload = {
             "group_id":value["group_id"],
             "owner_id":value["owner_uid"]
         }
-        data = Curl().post("https://api.vc.bilibili.com/link_setting/v1/link_setting/sign_in",payload)
-        data = json.loads(data)
+        data = Curl().request_json("POST",url,headers=config["pcheaders"],data=payload)
 
         if data["code"] != 0:
             Log.warning("应援团 %s 签到异常"%value["group_name"])
