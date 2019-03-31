@@ -63,9 +63,8 @@ class Task():
             self.done.append("sign_info")
             return
 
-        url = "https://api.live.bilibili.com/appUser/getSignInfo"
-        payload = {}
-        data = Curl().request_json("POST",url,headers=config["pcheaders"],data=payload)
+        url = "https://api.live.bilibili.com/sign/doSign"
+        data = Curl().request_json("GET",url,headers=config["pcheaders"])
 
         if data["code"] != 0:
             Log.error("「每日签到」失败")
@@ -95,7 +94,9 @@ class Task():
         
         url = "https://api.live.bilibili.com/activity/v1/task/receive_award"
         payload = {
-            "task_id":"double_watch_task"
+            "task_id":"double_watch_task",
+            "csrf_token":config["Token"]["CSRF"],
+            "csrf":config["Token"]["CSRF"]
         }
         data = Curl().request_json("POST",url,headers=config["pcheaders"],data=payload)
         

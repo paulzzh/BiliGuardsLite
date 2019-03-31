@@ -17,13 +17,13 @@ class BasicRequest:
 # 小电视,DokiDoki,摩天大楼之类的请求
     @staticmethod
     async def tv_req_check(real_roomid):
-        url = "https://api.live.bilibili.com/gift/v3/smalltv/check?roomid=%s"%real_roomid
+        url = "https://api.live.bilibili.com/xlive/lottery-interface/v3/smalltv/Check?roomid=%s"%real_roomid
         response = await AsyncioCurl().request_json("GET",url)
         return response
     
     @staticmethod
     async def tv_req_join(real_roomid,TV_raffleid):
-        url = "https://api.live.bilibili.com/gift/v3/smalltv/join"
+        url = "https://api.live.bilibili.com/xlive/lottery-interface/v3/smalltv/Join"
         payload = {
             "roomid": real_roomid,
             "raffleId": TV_raffleid,
@@ -36,7 +36,7 @@ class BasicRequest:
     
     @staticmethod
     async def tv_req_notice(TV_roomid, TV_raffleid):
-        url = "https://api.live.bilibili.com/gift/v3/smalltv/notice?type=small_tv&raffleId=%s"%TV_raffleid
+        url = "https://api.live.bilibili.com/xlive/lottery-interface/v3/smalltv/Notice?type=small_tv&raffleId=%s"%TV_raffleid
         response = await AsyncioCurl().request_json("GET",url,headers=config["pcheaders"])
         return response
     
