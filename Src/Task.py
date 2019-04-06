@@ -64,7 +64,8 @@ class Task():
             return
 
         url = "https://api.live.bilibili.com/sign/doSign"
-        data = Curl().request_json("GET",url,headers=config["pcheaders"])
+        payload = {}
+        data = Curl().request_json("GET",url,headers=config["pcheaders"],params=payload)
 
         if data["code"] != 0:
             Log.error("「每日签到」失败")

@@ -32,7 +32,9 @@ class Heart():
     def web(self,roomId):
         url = "https://api.live.bilibili.com/User/userOnlineHeart"
         payload = {
-            "room_id":roomId
+            "room_id":roomId,
+            "csrf_token":config["Token"]["CSRF"],
+            "csrf":config["Token"]["CSRF"]
         }
         data = Curl().request_json("POST",url,headers=config["pcheaders"],data=payload)
 
@@ -45,7 +47,9 @@ class Heart():
     def mobile(self,roomId):
         url = "https://api.live.bilibili.com/mobile/userOnlineHeart"
         payload = {
-            "room_id":roomId
+            "room_id":roomId,
+            "csrf_token":config["Token"]["CSRF"],
+            "csrf":config["Token"]["CSRF"]
         }
         data = Curl().request_json("POST",url,headers=config["pcheaders"],data=payload)
 
