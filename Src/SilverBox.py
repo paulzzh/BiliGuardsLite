@@ -52,7 +52,7 @@ class SilverBox():
         
         if data["code"] == -10017:
             Log.info(data["message"])
-            self.lock = std235959()
+            self.lock = std235959() + 600
             return
     
         if data["code"] != 0:

@@ -207,7 +207,8 @@ class DanmuRaffleHandler(BaseDanmu):
             return False
         
         elif cmd == "NOTICE_MSG":
-	    # 1 《第五人格》哔哩哔哩直播预选赛六强诞生！
+
+	        # 1 《第五人格》哔哩哔哩直播预选赛六强诞生！
             # 2 全区广播：<%user_name%>送给<%user_name%>1个嗨翻全城，快来抽奖吧
             # 3 <%user_name%> 在 <%user_name%> 的房间开通了总督并触发了抽奖，点击前往TA的房间去抽奖吧
             # 4 欢迎 <%总督 user_name%> 登船
