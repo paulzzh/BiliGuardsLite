@@ -1,4 +1,4 @@
-aiohttp
+bs4
 rsa
 requests
 configobj

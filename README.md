@@ -1,3 +1,27 @@
+# BiliGuardsLite
+ 这是基于 https://github.com/TheWanderingCoel/BiliBiliHelper/tree/8ea01273d52ce83534ca1e3116a4b98b041756cf 的精简版本
+ 自用 只有大航海抽奖/每日签到功能，纯依赖http接口，依靠crontab定时执行
+
+
+## 环境依赖
+|Requirement|
+|-------|
+|Python 3.6+|
+|  bs4    |
+|  rsa    |
+|requests |
+|configobj|
+
+通常使用 `pip` 工具安装依赖。
+
+
+## 感谢
+ - BilibiliHelper https://github.com/TheWanderingCoel/BiliBiliHelper
+ - bilibili-live-tools https://github.com/Dawnnnnnn/bilibili-live-tools
+ - 下次一定白嫖 https://live.bilibili.com/164725
+
+
+#以下为原项目Readme
 
 <p align="center"><img width="300px" src="https://i.loli.net/2018/04/20/5ad97bd395912.jpeg"></p>
 
