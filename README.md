@@ -1,3 +1,6 @@
+# Deprecated “7月24日上午11点, 所有新船员不再提供亲密值, 已移除所有列表”
+
+
 # BiliGuardsLite
  这是基于 https://github.com/TheWanderingCoel/BiliBiliHelper/tree/8ea01273d52ce83534ca1e3116a4b98b041756cf 的精简版本
  自用 只有大航海抽奖/每日签到功能，纯依赖http接口，依靠crontab定时执行
